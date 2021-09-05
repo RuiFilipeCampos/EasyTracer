@@ -23,7 +23,7 @@ struct Pixel{
 
 A screen is an array of pixels. The camera is a struct storing the origin of the rays and some other relevant info + the screen/detector.
 
-```
+```C
 struct Camera{
 	struct double3 source_point; // rays will be cast from here
 	double d; 			  // distance between source and screen
