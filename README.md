@@ -39,4 +39,4 @@ I am improvising a bit here, and still don't have the SDL properly set up. The i
 
 to do:
 
-- set up SDL https://www.libsdl.org/
+- [] set up SDL https://www.libsdl.org/
