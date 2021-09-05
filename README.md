@@ -6,3 +6,7 @@ Plan:
 
 - build geometry in a python script
 - explore the 3d environment (powered by C and the SDF library)
+
+How it will work:
+
+
