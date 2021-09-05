@@ -34,4 +34,4 @@ struct Camera{
 
 ```
 
-
+I am improvising a bit here, and still don't have the SDL properly set up. The idea is to have some sort of transform that acts either on the scene or on the camera itself. This transform should on user keyboard input. 
