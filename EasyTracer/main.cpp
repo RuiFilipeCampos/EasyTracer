@@ -1,7 +1,8 @@
-#include "src/include/SDL2/SDL.h"
+#include <SDL2/SDL.h>
 
 
-int main(void){
+int main( int argc, char **argv )
+{
 
     return 0;
 };
