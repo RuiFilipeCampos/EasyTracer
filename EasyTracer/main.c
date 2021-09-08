@@ -6,6 +6,10 @@
 
 int main( int argc, char **argv )
 {
+    /************************************************
+     *  INITIALIZING SDL AND OPENING A WINDOW
+     * *********************************************/
+
     // SDL_Init() returns 0 on success and a negative number on failure.
     if (SDL_Init(SDL_INIT_VIDEO)<0){
         printf("Failed to initialize `SDL`.");
@@ -40,12 +44,27 @@ int main( int argc, char **argv )
         printf("STD Error: ");
         printf(SDL_GetError());
         return -1;
-    }
+    };
 
     SDL_UpdateWindowSurface(window);
 
-    SDL_Event e;
 
+    /************************************************
+     *  INITIALIZING THE RAY TRACER
+     * *********************************************/
+
+
+
+
+
+
+
+
+
+    /************************************************
+     *  STARTING THE EVENT LOOP 
+     * *********************************************/
+    SDL_Event e;
     bool keep_open = true;
 
     while (keep_open){
