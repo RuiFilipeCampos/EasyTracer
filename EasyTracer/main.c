@@ -4,6 +4,13 @@
 #include <stdbool.h>
 
 
+#include "tracer.h"
+
+struct WindowHeader{
+    int Nx;
+    int Ny;
+};
+
 int main( int argc, char **argv )
 {
     /************************************************
@@ -18,11 +25,15 @@ int main( int argc, char **argv )
         return -1;
     };
 
+    struct WindowHeader window_header;
+    window_header.Nx = 680;
+    window_header.Ny = 480;
+
     // creating a window 
     SDL_Window *window = SDL_CreateWindow("SDL2 Window", // the title 
                                           SDL_WINDOWPOS_CENTERED, // x position 
                                           SDL_WINDOWPOS_CENTERED, // y position
-                                          680, 480, // size of window 
+                                          window_header.Nx, window_header.Ny, // size of window 
                                           0);  // wuts this ??
 
 
@@ -52,6 +63,11 @@ int main( int argc, char **argv )
     /************************************************
      *  INITIALIZING THE RAY TRACER
      * *********************************************/
+
+
+    Camera camera = create_simple_camera(window_header.Nx, window_header.Ny); 
+
+
 
 
 
