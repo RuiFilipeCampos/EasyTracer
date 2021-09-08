@@ -1,4 +1,2 @@
-EasyTracer/src/* linguist-vendored
-EasyTracer/src/include/SDL2/* linguist-vendored
-EasyTracer/src/lib/* linguist-vendored
+EasyTracer/src/**/* linguist-vendored
 
