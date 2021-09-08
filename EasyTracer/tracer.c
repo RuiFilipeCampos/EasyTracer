@@ -1,64 +1,37 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <windows.h>
-
-#include "SDL.h"
+#include <stdbool.h>
 
 // a 3-tuple
-struct double3{
+typedef struct double3{
 	double x;
 	double y;
 	double z;
-};
-
-// operations on vectors ****************************************************************
-void add_vec(struct double3 *v1, struct double3 *v2, struct double3 *res){
-	res->x = v1->x + v2->x;
-	res->y = v1->y + v2->y;
-	res->z = v1->z + v2->z;
-};
+} double3;
 
 
-void sub_vec(struct double3 *v1, struct double3 *v2, struct double3 *res){
-	res->x = v1->x - v2->x;
-	res->y = v1->y - v2->y;
-	res->z = v1->z - v2->z;
-};
-
-void mul_vector(double K, struct double3 *v1){
-	v1->x *= K;
-	v1->y *= K;
-	v1->z *= K;
-};
-// **********************************************************************************
+typedef struct RGBPixel{
+	int R, G, B;
+    double3 dire;
+} RGBPixel;
 
 
-// starting to think I won't need these 
-struct Ray{
-	struct double3 pos;
-	struct double3 dir;
-};
-
-
-struct Pixel{
-	double R;
-	double G;
-	double B;
-	struct double3 dire; // pre-calculated directions in some original frame
-};
-
-struct Camera{
+typedef struct Camera{
 	struct double3 source_point; // rays will be cast from here
 	double d; 			  // distance between source and screen
 	double dx;            // pixel 
 	double dy;            // size
 	struct Pixel *screen;        // this is shown on the actual screen
-};
+} Camera;
 
 
 
-int main(int argc, char *argv[])
+
+
+
+void render(char* buffer, bool update)
 {
+
 	// construct the simplest camera
 	int Nx = 50;
 	int Ny = 50;
