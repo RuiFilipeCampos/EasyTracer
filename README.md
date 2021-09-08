@@ -40,6 +40,6 @@ I am improvising a bit here, and still don't have the SDL properly set up. The i
 to do:
 
 - [x] set up SDL https://www.libsdl.org/
-- [ ] opening a window
+- [x] opening a window
 - [ ] drawing on window, pixel by pixel (possible?)
 - [ ] update selected pixels (possible?)
