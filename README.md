@@ -41,5 +41,5 @@ to do:
 
 - [x] set up SDL https://www.libsdl.org/
 - [x] opening a window
-- [ ] drawing on window, pixel by pixel (possible?)
+- [ ] drawing on window, pixel by pixel (possible? ->> yee)
 - [ ] update selected pixels (possible?)
