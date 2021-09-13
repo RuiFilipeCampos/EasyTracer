@@ -9,32 +9,46 @@ Plan:
 
 How it will work:
 
-
-A `Pixel`struct holds the RGB values + direction information in a laboratory frame of reference:
+A `Pixel` is defined as a unit vector located at some position,
 
 ```C
-struct Pixel{
-	double R;
-	double G;
-	double B;
-	struct double3 dire; // pre-calculated directions in some original frame
-};
+typedef struct double3{
+    double x, y, z;
+}double3;
+
+typedef double3 Pixel;
 ```
 
-A screen is an array of pixels. The camera is a struct storing the origin of the rays and some other relevant info + the screen/detector.
+The position is not included in the codes definition of `Pixel` because that quantity will later be implicitly defined by the `Camera`'s parameters.
+
+A screen is an array of pixels,
+
+```C
+
+typdef struct Screen{
+    double dx, dy; // the size of a pixel
+    Pixel *start;  // the start of the array
+    Pixel *end;    // the end of the array
+}Screen;
+
+Screen screen;
+
+screen.start = (Pixel*) malloc(sizeof(Pixel)*Nx*Ny);
+screen.end = screen.start + Nx*Ny;
+```
+
+The 'true' array is dynamically allocated since the actual size of the screen is user defined (unknowable to the compiler).
+
+The `Camera` is a struct storing the origin of the rays, the shortest distance between the origin and the screen, the screen itself and the
 
 ```C
 struct Camera{
-	struct double3 source_point; // rays will be cast from here
-	double d; 			  // distance between source and screen
-	double dx;            // pixel 
-	double dy;            // size
-	struct Pixel *screen;        // this is shown on the actual screen
+	double d;
+	double3 origin;
+	Screen screen;
 };
-
 ```
 
-I am improvising a bit here, and still don't have the SDL properly set up. The idea is to have some sort of transform that acts either on the scene or on the camera itself. This transform should on user keyboard input. 
 
 
 to do:
