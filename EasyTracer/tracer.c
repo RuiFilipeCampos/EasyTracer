@@ -2,6 +2,7 @@
 
 
 #include "tracer.h"
+#include "primitives.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,7 +13,6 @@
 
 double dot_product(double3 A, double3 B){
     return A.x*B.x + A.y*B.y + A.z*
-
 };
 
 Camera create_simple_camera(int Nx, int Ny){
@@ -66,10 +66,9 @@ Camera create_simple_camera(int Nx, int Ny){
 };
 
 
-typedef struct Sphere{
-    double3 center;
-    double radius;
-} Sphere;
+
+
+
 
 void render(Camera *camera, char* buffer)
 {
