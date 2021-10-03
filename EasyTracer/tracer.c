@@ -46,49 +46,42 @@ Camera create_simple_camera(int Nx, int Ny){
 
 
 	camera.d = 1;
-	camera.screen.dx = .001;
-	camera.screen.dy = .001;
 
-    int halfNx = camera.screen.Nx - camera.screen.Nx / 2;
-    int halfNy = camera.screen.Ny - camera.screen.Ny / 2;
+    double size = 0.1;
+	camera.screen.dx = size;
+	camera.screen.dy = size;
+
+    int halfNx = camera.screen.Nx/2;
+    int halfNy = camera.screen.Ny/2;
 
     // should be the fastest way to iterate it
     Pixel *pixel = camera.screen.start;
-    int nx, ny;                             // not sure if this will be faster cuz of these
-    int i = 0;                              // counting iterations 
-    double inv_norm; 
 
-    //while (pixel != camera.screen.end){
     
-    for (nx = 0; nx < Nx; ++nx){
-        for (ny = 0; ny < Ny; ++ny){
-        /* 
-        // I think this will be faster, at least this time, I don't need to store these values
-        // nx = i % Ny;
-        // ny = i % Nx;
-
-        // 5 x 2
-        // 0 1 2 3 4 5 6 7 8 9 10
-
-        // 0 1 2 3 4
-        // 5 6 7 8 9
-        */
-
+    for (int nx = 0; nx < Nx; ++nx){
+        for (int ny = 0; ny < Ny; ++ny){
+    
         // determine the pixels direction in this frame 
         // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
-        (*pixel).z = camera.d;  
+
+
+
+        (*pixel).z = camera.d;  // it is now touching the screen
         
-                                           // vector is now touching the screen
-        (*pixel).x = ((double) (halfNx + nx))  *camera.screen.dx;           // correct x position
-        (*pixel).y = ((double) (halfNy + ny))  *camera.screen.dy;           // correct y position
+
+        // ok, so: nx and ny are growing, so I should start at the minimum possible value of each coord
+        // that be like, (-halfNX*dx, -halfNy*dy)
+
+        (*pixel).x = ((double) (nx - halfNx))  * camera.screen.dx;           // correct x position
+        (*pixel).y = ((double) (ny - halfNy))  * camera.screen.dy;           // correct y position
 
         
 
 
         // normalizing the pixel
-        inv_norm = 1/sqrt( pow( (*pixel).x, 2) + pow( (*pixel).y, 2)  + pow( (*pixel).z, 2) );
+        double inv_norm = 1/sqrt( pow((*pixel).x, 2) + pow((*pixel).y, 2)  + pow((*pixel).z, 2) );
 
-        (*pixel).z *= inv_norm;                     // it is now touching the screen
+        (*pixel).z *= inv_norm;                    
         (*pixel).x *= inv_norm;
         (*pixel).y *= inv_norm;
 
@@ -114,7 +107,7 @@ void render(Camera *camera, SDL_Surface *surface)
     sphere.center.x = 0; 
     sphere.center.y = 0; 
     sphere.center.z = 5;
-    sphere.radius   = 1;
+    sphere.radius   = 2;
 
     double3 origin = camera->origin;
     Pixel *pixel = camera->screen.start;
@@ -135,7 +128,7 @@ void render(Camera *camera, SDL_Surface *surface)
     double b, c;
 
     double3 OC; 
-    OC = minus(camera->origin, sphere.center);
+    OC = minus(sphere.center,  camera->origin);
     double OCsq = dot_product(OC, OC);
     c = OCsq - sphere.radius*sphere.radius; 
 
@@ -160,9 +153,11 @@ void render(Camera *camera, SDL_Surface *surface)
         // R
         *window_pixel = intersected;
         ++window_pixel;
+
         // G
         *window_pixel = intersected;
         ++window_pixel;
+
         // B
         *window_pixel = intersected;
         ++window_pixel;
