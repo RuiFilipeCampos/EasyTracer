@@ -12,9 +12,10 @@ typedef struct double3{
 // modeling a camera pixel
 typedef double3 Pixel;
 
-
 // modeling a screen detector as an array of pixels
 typedef struct Screen{
+	int Nx, Ny;     // screen size (probly bad place, but makes sense for now)
+	double dx, dy; // pixel size (should this be here??)
     Pixel *start;
     Pixel *end;
 } Screen;
