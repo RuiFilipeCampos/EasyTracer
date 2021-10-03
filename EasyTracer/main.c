@@ -67,15 +67,13 @@ int main( int argc, char **argv )
 
 
     Camera camera = create_simple_camera(window_header.Nx, window_header.Ny);
-    
-
 
 
     /************************************************
      *  STARTING THE EVENT LOOP 
      * *********************************************/
 
-    
+
     SDL_Event event;
     bool keep_open = true;
 
@@ -90,28 +88,12 @@ int main( int argc, char **argv )
                 break;
             
             default:
+                // probly should call render right here 
+
                 break;
         };
 
     };
-
-    /*
-    while (keep_open){
-        while (SDL_PollEvent(&e)> 0){
-            SDL_UpdateWindowSurface(window);
-            switch (e.type)
-            {
-            case SDL_QUIT:
-                keep_open = false;
-                break;
-            
-            default:
-                break;
-            }
-
-        };
-    };
-    */
 
     return 0;
 };
