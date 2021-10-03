@@ -56,9 +56,9 @@ Camera create_simple_camera(int Nx, int Ny){
     int i = 0; // counting iterations 
 
     while (pixel != camera.screen.end){
-
-        nx = i % Ny;
-        ny = i % Nx;
+        // I think this will be faster, at least this time, I don't need to store these values
+        // nx = i % Ny;
+        // ny = i % Nx;
 
     // 5 x 2
         // 0 1 2 3 4 5 6 7 8 9 10
@@ -71,8 +71,8 @@ Camera create_simple_camera(int Nx, int Ny){
 
 
         (*pixel).z = camera.d;                               // it is now touching the screen
-        (*pixel).x = (halfNx + nx)*camera.screen.dx;
-        (*pixel).y = (halfNy + ny)*camera.screen.dy;
+        (*pixel).x = (halfNx + i % Ny)*camera.screen.dx;
+        (*pixel).y = (halfNy + i % Nx)*camera.screen.dy;
 
         double inv_norm = 1/sqrt( pow( (*pixel).dire.x, 2) + pow( (*pixel).dire.y, 2)  + pow( (*pixel).dire.z, 2) );
         (*pixel).z *= inv_norm;                     // it is now touching the screen
