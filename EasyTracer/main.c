@@ -78,8 +78,10 @@ int main( int argc, char **argv )
     bool keep_open = true;
 
 
+    render(&camera, &window_surface);
+    SDL_UpdateWindowSurface(window);
+
     while (keep_open & SDL_PollEvent(&event)){
-        SDL_UpdateWindowSurface(window);
 
         switch (event.type)
         {
@@ -88,7 +90,8 @@ int main( int argc, char **argv )
                 break;
             
             default:
-                // probly should call render right here 
+                continue; // the default should be this thing
+                // rendering will occur on user input 
 
                 break;
         };

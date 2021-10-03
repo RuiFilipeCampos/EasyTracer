@@ -88,7 +88,7 @@ Camera create_simple_camera(int Nx, int Ny){
 
 
 // gotta recall what is this buffer stuff
-void render(Camera *camera, SDL_Surface surface)
+void render(Camera *camera, SDL_Surface *surface)
 {
     
     // let's do a sphere located at z = 5 with radius of 1
