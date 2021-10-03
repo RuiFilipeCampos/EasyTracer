@@ -21,8 +21,6 @@ double dot_product(double3 A, double3 B){ return A.x*B.x + A.y*B.y + A.z* };
 Camera create_simple_camera(int Nx, int Ny){
     // for now only the screen size is passed
 
-
-
     // ok, I should have constructors for these
 	struct Camera camera;
 
@@ -59,58 +57,56 @@ Camera create_simple_camera(int Nx, int Ny){
 
     while (pixel != camera.screen.end){
 
+        nx = i % Ny;
+        ny = i % Nx;
+
+    // 5 x 2
+        // 0 1 2 3 4 5 6 7 8 9 10
+
+        // 0 1 2 3 4
+        // 5 6 7 8 9
 
         // determine the pixels direction in this frame 
         // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
 
 
-        (*pixel).z = camera.d;                     // it is now touching the screen
+        (*pixel).z = camera.d;                               // it is now touching the screen
         (*pixel).x = (halfNx + nx)*camera.screen.dx;
         (*pixel).y = (halfNy + ny)*camera.screen.dy;
 
         double inv_norm = 1/sqrt( pow( (*pixel).dire.x, 2) + pow( (*pixel).dire.y, 2)  + pow( (*pixel).dire.z, 2) );
-        (*pixel).dire.z *= inv_norm;                     // it is now touching the screen
-        (*pixel).dire.x *= inv_norm;
-        (*pixel).dire.y *= inv_norm;
-
-        (*pixel).R = 0;
-        (*pixel).G = 0;
-        (*pixel).B = 0;
-
+        (*pixel).z *= inv_norm;                     // it is now touching the screen
+        (*pixel).x *= inv_norm;
+        (*pixel).y *= inv_norm;
 
 
         ++pixel;
         ++i;
 
 
-
-
     };
 
+    double inv_norm;
+    int nx, ny; 
 
+	for (nx = 0; nx < Nx; ++nx){
+		for (ny = 0; ny < Ny; ++ny){
 
-	for (int nx = 0; nx < Nx; ++nx){
-		for (int ny = 0; ny < Ny; ++ny){
-            
-			// determine the pixels direction in this frame
-			(*pixel).dire.z = camera.d;                     // it is now touching the screen
-			(*pixel).dire.x = (halfNx + nx)*camera.dx;   
-			(*pixel).dire.y = (halfNy + ny)*camera.dy;
+            // determine the pixels direction in this frame 
+            // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
+            (*pixel).z = camera.d;                               // it is now touching the screen
+            (*pixel).x = (halfNx + nx)*camera.screen.dx;
+            (*pixel).y = (halfNy + ny)*camera.screen.dy;
 
-            double inv_norm = 1/sqrt( pow( (*pixel).dire.x, 2) + pow( (*pixel).dire.y, 2)  + pow( (*pixel).dire.z, 2) );
-            (*pixel).dire.z *= inv_norm;                     // it is now touching the screen
-			(*pixel).dire.x *= inv_norm;
-			(*pixel).dire.y *= inv_norm;
+            inv_norm = 1/sqrt( pow( (*pixel).x, 2) + pow( (*pixel).y, 2)  + pow( (*pixel).z, 2) );
 
-			(*pixel).R = 0;
-			(*pixel).G = 0;
-			(*pixel).B = 0;
-            
+            (*pixel).z *= inv_norm;                     // it is now touching the screen
+            (*pixel).x *= inv_norm;
+            (*pixel).y *= inv_norm;   
+
             ++pixel;
 		};
 	};
-
-
 
     return camera;
 
