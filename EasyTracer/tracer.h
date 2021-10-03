@@ -10,11 +10,7 @@ typedef struct double3{
 
 
 // modeling a camera pixel
-typedef struct Pixel{
-	int R, G, B;
-    double3 dire;
-} Pixel;
-
+typedef double3 Pixel;
 
 
 // modeling a screen detector as an array of pixels
@@ -22,7 +18,6 @@ typedef struct Screen{
     Pixel *start;
     Pixel *end;
 } Screen;
-
 
 
 
@@ -35,21 +30,14 @@ typedef struct CameraHeader{
 } CameraHeader;
 
 
-
-
-// modelling the camera
 typedef struct Camera{
-	double d; 			  // distance between source and screen
-	double dx;            // pixel 
-	double dy;            // size
-    int Nx;
-    int Ny;
-    CameraHeader HEADER;
-	double3 source_point; // rays will be cast from here
-	Screen screen;        // this is shown on the actual screen
+	double d;         // closest distance from origin to screen
+	double3 origin;   // origin of rays
+	Screen screen;    // the array of detectors (Pixel)
 } Camera;
 
+
+
+
 Camera create_simple_camera(int Nx, int Ny);
-
-
 void render(char* buffer, bool update);
