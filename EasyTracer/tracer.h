@@ -28,5 +28,5 @@ typedef struct Camera{
 } Camera;
 
 
-Camera create_simple_camera(int Nx, int Ny);
+Camera create_simple_camera(double X, double Y, int Nx, int Ny); 
 void render(Camera *camera, SDL_Surface *surface);

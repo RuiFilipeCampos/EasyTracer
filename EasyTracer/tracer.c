@@ -28,10 +28,17 @@ double3 minus(double3 A, double3 B){
 
 
 
-Camera create_simple_camera(int Nx, int Ny){
-    // for now only the screen size is passed
+Camera create_simple_camera(double X, double Y, int Nx, int Ny){
+    /*
+    PARAMETERS:
+        double X: Size of screen in the world. 
+        double Y: Size of screen in the world
 
-    // ok, I should have constructors for these
+        int Nx: Number of horizontal pixels
+        int Ny: Number of vertifal pixels
+    
+    */
+
 	struct Camera camera;
 
     camera.screen.Nx = Nx;
@@ -42,21 +49,18 @@ Camera create_simple_camera(int Nx, int Ny){
 	camera.origin.z = 0;
 
 	camera.screen.start = (Pixel *) malloc(Nx*Ny*sizeof(Pixel));
-    camera.screen.end = camera.screen.start + Nx*Ny; 
+    camera.screen.end = camera.screen.start + Nx*Ny;
 
 
 	camera.d = 1;
-
-    double size = 0.1;
-	camera.screen.dx = size;
-	camera.screen.dy = size;
+	camera.screen.dx = X/Nx;
+	camera.screen.dy = Y/Ny;
 
     int halfNx = camera.screen.Nx/2;
     int halfNy = camera.screen.Ny/2;
 
     // should be the fastest way to iterate it
     Pixel *pixel = camera.screen.start;
-
     
     for (int nx = 0; nx < Nx; ++nx){
         for (int ny = 0; ny < Ny; ++ny){
@@ -73,10 +77,7 @@ Camera create_simple_camera(int Nx, int Ny){
         // that be like, (-halfNX*dx, -halfNy*dy)
 
         (*pixel).x = ((double) (nx - halfNx))  * camera.screen.dx;           // correct x position
-        (*pixel).y = ((double) (ny - halfNy))  * camera.screen.dy;           // correct y position
-
-        
-
+        (*pixel).y = ((double) (ny + halfNy))  * camera.screen.dy;           // correct y position
 
         // normalizing the pixel
         double inv_norm = 1/sqrt( pow((*pixel).x, 2) + pow((*pixel).y, 2)  + pow((*pixel).z, 2) );
@@ -106,49 +107,37 @@ void render(Camera *camera, SDL_Surface *surface)
     Sphere sphere;
     sphere.center.x = 0; 
     sphere.center.y = 0; 
-    sphere.center.z = 5;
-    sphere.radius   = 2;
+    sphere.center.z = 10;
+
+    sphere.radius   = 5;
 
     double3 origin = camera->origin;
     Pixel *pixel = camera->screen.start;
 
     SDL_LockSurface(surface);
 
-    // printf("surface->h = %d", surface->h);
-    // printf("surface->pitch = %d", surface->pitch);
-
-    // SDL_memset(surface->pixels, 255, surface->h * surface->pitch);
-
     uint8_t *window_pixel = (uint8_t *) surface->pixels ;
     uint8_t intersected;
 
-
-
-
     double b, c;
-
-    double3 OC; 
-    OC = minus(sphere.center,  camera->origin);
+    double3 OC = minus(sphere.center,  camera->origin);
     double OCsq = dot_product(OC, OC);
     c = OCsq - sphere.radius*sphere.radius; 
 
 
-    while (pixel != camera->screen.end){
+    do{
         
         //b = 2 * pixel->dire * () ;
         // c = ;
         
 
         b = 2*dot_product(*pixel, OC);
-        intersected =  255*( (uint8_t) (b*b - 4*c > 0) ) ;
+        intersected =  255*( (uint8_t) (b*b - 4*c > 0) );
 
        // printf("(%d, ", pixel->x);
        // printf("%d, ", pixel->y); 
        // printf("%d) \n", pixel->z); 
 
-
-        
-        
 
         // R
         *window_pixel = intersected;
@@ -169,7 +158,7 @@ void render(Camera *camera, SDL_Surface *surface)
 
         ++pixel;
 
-    };
+    } while (pixel != camera->screen.end);
 
     SDL_UnlockSurface(surface);
 
