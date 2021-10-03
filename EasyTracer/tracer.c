@@ -44,16 +44,45 @@ Camera create_simple_camera(int Nx, int Ny){
 
 
 
-    Pixel *pixel = camera.screen.start;
-
-
     int halfNx = camera.screen.Nx - camera.screen.Nx / 2;
     int halfNy = camera.screen.Ny - camera.screen.Ny / 2;
 
 
     // fastest way to iterate it
+    Pixel *pixel = camera.screen.start;
+
+
+
+
+    int nx, ny; // not sure if this will be faster cuz of these
+    int i = 0; // counting iterations 
+
     while (pixel != camera.screen.end){
+
+
+        // determine the pixels direction in this frame 
+        // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
+
+
+        (*pixel).z = camera.d;                     // it is now touching the screen
+        (*pixel).x = (halfNx + nx)*camera.screen.dx;
+        (*pixel).y = (halfNy + ny)*camera.screen.dy;
+
+        double inv_norm = 1/sqrt( pow( (*pixel).dire.x, 2) + pow( (*pixel).dire.y, 2)  + pow( (*pixel).dire.z, 2) );
+        (*pixel).dire.z *= inv_norm;                     // it is now touching the screen
+        (*pixel).dire.x *= inv_norm;
+        (*pixel).dire.y *= inv_norm;
+
+        (*pixel).R = 0;
+        (*pixel).G = 0;
+        (*pixel).B = 0;
+
+
+
         ++pixel;
+        ++i;
+
+
 
 
     };
