@@ -1,6 +1,5 @@
 
 
-
 // a 3 dimensional vector
 typedef struct double3{
 	double x;
@@ -21,14 +20,6 @@ typedef struct Screen{
 } Screen;
 
 
-
-typedef struct CameraHeader{
-	double d; 			  // distance between source and screen
-	double dx;            // pixel 
-	double dy;            // size
-    int Nx;
-    int Ny;
-} CameraHeader;
 
 
 typedef struct Camera{
