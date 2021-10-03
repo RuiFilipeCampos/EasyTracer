@@ -39,42 +39,40 @@ Camera create_simple_camera(int Nx, int Ny){
 	camera.screen.dx = camera.d/4;
 	camera.screen.dy = camera.d/4;
 
-
-
-
     int halfNx = camera.screen.Nx - camera.screen.Nx / 2;
     int halfNy = camera.screen.Ny - camera.screen.Ny / 2;
 
-
-    // fastest way to iterate it
+    // should be the fastest way to iterate it
     Pixel *pixel = camera.screen.start;
-
-
-
-
-    int nx, ny; // not sure if this will be faster cuz of these
-    int i = 0; // counting iterations 
+    int nx, ny;                             // not sure if this will be faster cuz of these
+    int i = 0;                              // counting iterations 
+    double inv_norm; 
 
     while (pixel != camera.screen.end){
+        /* 
         // I think this will be faster, at least this time, I don't need to store these values
         // nx = i % Ny;
         // ny = i % Nx;
 
-    // 5 x 2
+        // 5 x 2
         // 0 1 2 3 4 5 6 7 8 9 10
 
         // 0 1 2 3 4
         // 5 6 7 8 9
+        */
+
+
+
+
+
 
         // determine the pixels direction in this frame 
         // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
+        (*pixel).z = camera.d;                                     // vector is now touching the screen
+        (*pixel).x = (halfNx + i % Ny)*camera.screen.dx;           // correct x position
+        (*pixel).y = (halfNy + i % Nx)*camera.screen.dy;           // correct y position
 
-
-        (*pixel).z = camera.d;                               // it is now touching the screen
-        (*pixel).x = (halfNx + i % Ny)*camera.screen.dx;
-        (*pixel).y = (halfNy + i % Nx)*camera.screen.dy;
-
-        double inv_norm = 1/sqrt( pow( (*pixel).dire.x, 2) + pow( (*pixel).dire.y, 2)  + pow( (*pixel).dire.z, 2) );
+        inv_norm = 1/sqrt( pow( (*pixel).x, 2) + pow( (*pixel).y, 2)  + pow( (*pixel).z, 2) );
         (*pixel).z *= inv_norm;                     // it is now touching the screen
         (*pixel).x *= inv_norm;
         (*pixel).y *= inv_norm;
@@ -86,27 +84,6 @@ Camera create_simple_camera(int Nx, int Ny){
 
     };
 
-    double inv_norm;
-    int nx, ny; 
-
-	for (nx = 0; nx < Nx; ++nx){
-		for (ny = 0; ny < Ny; ++ny){
-
-            // determine the pixels direction in this frame 
-            // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
-            (*pixel).z = camera.d;                               // it is now touching the screen
-            (*pixel).x = (halfNx + nx)*camera.screen.dx;
-            (*pixel).y = (halfNy + ny)*camera.screen.dy;
-
-            inv_norm = 1/sqrt( pow( (*pixel).x, 2) + pow( (*pixel).y, 2)  + pow( (*pixel).z, 2) );
-
-            (*pixel).z *= inv_norm;                     // it is now touching the screen
-            (*pixel).x *= inv_norm;
-            (*pixel).y *= inv_norm;   
-
-            ++pixel;
-		};
-	};
 
     return camera;
 
