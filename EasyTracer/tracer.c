@@ -7,7 +7,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#include <math.h>
 
+
+double dot_product(double3 A, double3 B){
+    return A.x*B.x + A.y*B.y + A.z*
+
+};
 
 Camera create_simple_camera(int Nx, int Ny){
 
@@ -40,6 +46,11 @@ Camera create_simple_camera(int Nx, int Ny){
 			(*pixel).dire.x = (halfNx + nx)*camera.dx;   
 			(*pixel).dire.y = (halfNy + ny)*camera.dy;
 
+            double inv_norm = 1/sqrt( pow( (*pixel).dire.x, 2) + pow( (*pixel).dire.y, 2)  + pow( (*pixel).dire.z, 2) );
+            (*pixel).dire.z *= inv_norm;                     // it is now touching the screen
+			(*pixel).dire.x *= inv_norm;
+			(*pixel).dire.y *= inv_norm;
+
 			(*pixel).R = 0;
 			(*pixel).G = 0;
 			(*pixel).B = 0;
@@ -69,7 +80,7 @@ void render(Camera *camera, char* buffer)
     sphere.center.x = 0; 
     sphere.center.y = 0; 
     sphere.center.z = 5;
-    sphere.radius = 1; 
+    sphere.radius   = 1; 
 
 
     double3 origin = camera->source_point;

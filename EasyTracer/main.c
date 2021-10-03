@@ -6,9 +6,10 @@
 
 #include "tracer.h"
 
+
+
 struct WindowHeader{
-    int Nx;
-    int Ny;
+    int Nx, Ny;  // size of window in pixels
 };
 
 int main( int argc, char **argv )
@@ -18,7 +19,7 @@ int main( int argc, char **argv )
      * *********************************************/
 
     // SDL_Init() returns 0 on success and a negative number on failure.
-    if (SDL_Init(SDL_INIT_VIDEO)<0){
+    if (SDL_Init(SDL_INIT_VIDEO) < 0){
         printf("Failed to initialize `SDL`.");
         printf("STD Error: ");
         printf(SDL_GetError());
@@ -65,8 +66,8 @@ int main( int argc, char **argv )
      * *********************************************/
 
 
-    Camera camera = create_simple_camera(window_header.Nx, window_header.Ny); 
-
+    Camera camera = create_simple_camera(window_header.Nx, window_header.Ny);
+    
 
 
 
