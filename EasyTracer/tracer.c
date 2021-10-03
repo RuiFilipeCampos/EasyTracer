@@ -61,77 +61,58 @@ Camera create_simple_camera(int Nx, int Ny){
         // 5 6 7 8 9
         */
 
-
-
-
-
-
         // determine the pixels direction in this frame 
         // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
         (*pixel).z = camera.d;                                     // vector is now touching the screen
         (*pixel).x = (halfNx + i % Ny)*camera.screen.dx;           // correct x position
         (*pixel).y = (halfNy + i % Nx)*camera.screen.dy;           // correct y position
 
+
+
+
+        // normalizing the pixel
         inv_norm = 1/sqrt( pow( (*pixel).x, 2) + pow( (*pixel).y, 2)  + pow( (*pixel).z, 2) );
+
         (*pixel).z *= inv_norm;                     // it is now touching the screen
         (*pixel).x *= inv_norm;
         (*pixel).y *= inv_norm;
 
-
         ++pixel;
         ++i;
-
-
     };
 
-
     return camera;
-
 };
 
 
 
 
-
-
+// gotta recall what is this buffer stuff
 void render(Camera *camera, char* buffer)
 {
-    Pixel *pixel = camera->screen.start; 
     
     // let's do a sphere located at z = 5 with radius of 1
     Sphere sphere;
     sphere.center.x = 0; 
     sphere.center.y = 0; 
     sphere.center.z = 5;
-    sphere.radius   = 1; 
+    sphere.radius   = 1;
 
 
-    double3 origin = camera->source_point;
-
-
+    double3 origin = camera->origin;
     double a, b, c;
+    Pixel *pixel = camera->screen.start; 
 
+    bool intersected;
 
     while (pixel != camera->screen.end){
-
         
         b = 2 * pixel->dire * () ;
-        c = ; 
+        c = ;
 
-        // no intersection --> branch can easily be removed 
-        if (b*b - 4*c < 0){
-            pixel->R = 255;
-            pixel->G = 255;
-            pixel->B = 255;
-            ++pixel; continue; 
-        } else{
-            pixel->R = 0;
-            pixel->G = 0;
-            pixel->B = 0;
-            ++pixel; continue;
-        };
 
-        printf("ERROR: NEITHER INTERSECTION NOR NO INTERSECTION WAS CHOSEN"); 
+        intersected = b*b - 4*c < 0;
+        ++pixel;
         
     };
 
