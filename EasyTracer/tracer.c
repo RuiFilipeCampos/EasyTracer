@@ -103,7 +103,6 @@ void render(Camera *camera, SDL_Surface *surface)
     double a, b, c;
     Pixel *pixel = camera->screen.start; 
 
-    bool intersected;
 
 
     SDL_LockSurface(surface);
@@ -111,18 +110,37 @@ void render(Camera *camera, SDL_Surface *surface)
     printf("surface->h = %d", surface->h);
     printf("surface->pitch = %d", surface->pitch);
 
-    SDL_memset(surface->pixels, 255, surface->h * surface->pitch);
+    // SDL_memset(surface->pixels, 255, surface->h * surface->pitch);
 
+    uint8_t *window_pixel = (uint8_t *) surface->pixels ;
+    uint8_t intersected;
 
     while (pixel != camera->screen.end){
         
         //b = 2 * pixel->dire * () ;
         // c = ;
+        b = 0; c = 1; 
 
+        intersected =  255*( (uint8_t) (b*b - 4*c > 0) ) ;
 
-        // intersected = b*b - 4*c < 0;
         
-        intersected = true; 
+        
+
+        // R
+        *window_pixel = intersected;
+        ++window_pixel;
+        // G
+        *window_pixel = intersected;
+        ++window_pixel;
+        // B
+        *window_pixel = intersected;
+        ++window_pixel;
+
+        // alpha ??  --- not sure what this is
+        *window_pixel = 0;
+        ++window_pixel;
+    
+
         ++pixel;
 
     };
