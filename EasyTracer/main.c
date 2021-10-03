@@ -81,9 +81,26 @@ int main( int argc, char **argv )
     /************************************************
      *  STARTING THE EVENT LOOP 
      * *********************************************/
-    SDL_Event e;
+    SDL_Event event;
     bool keep_open = true;
 
+
+    while (keep_open & SDL_PollEvent(&event)){
+        SDL_UpdateWindowSurface(window);
+
+        switch (event.type)
+        {
+            case SDL_QUIT:
+                keep_open = false;
+                break;
+            
+            default:
+                break;
+        };
+
+    };
+
+    /*
     while (keep_open){
         while (SDL_PollEvent(&e)> 0){
             SDL_UpdateWindowSurface(window);
@@ -99,6 +116,7 @@ int main( int argc, char **argv )
 
         };
     };
+    */
 
     return 0;
 };
