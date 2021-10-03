@@ -44,13 +44,21 @@ Camera create_simple_camera(int Nx, int Ny){
 
 
 
-
-
     Pixel *pixel = camera.screen.start;
 
 
-    int halfNx = camera.Nx - camera.Nx / 2;
-    int halfNy = camera.Ny - camera.Ny / 2; 
+    int halfNx = camera.screen.Nx - camera.screen.Nx / 2;
+    int halfNy = camera.screen.Ny - camera.screen.Ny / 2;
+
+
+    // fastest way to iterate it
+    while (pixel != camera.screen.end){
+        ++pixel;
+
+
+    };
+
+
 
 	for (int nx = 0; nx < Nx; ++nx){
 		for (int ny = 0; ny < Ny; ++ny){
