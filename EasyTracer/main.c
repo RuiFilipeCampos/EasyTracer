@@ -71,16 +71,11 @@ int main( int argc, char **argv )
 
 
 
-
-
-
-
-
-
-
     /************************************************
      *  STARTING THE EVENT LOOP 
      * *********************************************/
+
+    
     SDL_Event event;
     bool keep_open = true;
 

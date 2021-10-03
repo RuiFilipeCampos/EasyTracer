@@ -11,29 +11,43 @@
 #include <math.h>
 
 
-double dot_product(double3 A, double3 B){
-    return A.x*B.x + A.y*B.y + A.z*
-};
+
+double dot_product(double3 A, double3 B){ return A.x*B.x + A.y*B.y + A.z* };
+
+
+
+
 
 Camera create_simple_camera(int Nx, int Ny){
+    // for now only the screen size is passed
 
+
+
+    // ok, I should have constructors for these
 	struct Camera camera;
 
-    camera.Nx = Nx;
-    camera.Ny = Ny;
+    camera.screen.Nx = Nx;
+    camera.screen.Ny = Ny;
 
-	camera.source_point.x = 0;
-	camera.source_point.y = 0;
-	camera.source_point.z = 0;
+	camera.origin.x = 0;
+	camera.origin.y = 0;
+	camera.origin.z = 0;
 
-	camera.screen.start = (struct Pixel *) malloc(Nx*Ny*sizeof(Pixel));
-    camera.screen.end = camera.screen.start + Nx + Ny; 
+	camera.screen.start = (Pixel *) malloc(Nx*Ny*sizeof(Pixel));
+    camera.screen.end = camera.screen.start + Nx*Ny; 
+
 
 	camera.d = 1;
-	camera.dx = camera.d/4;
-	camera.dy = camera.d/4;
+	camera.screen.dx = camera.d/4;
+	camera.screen.dy = camera.d/4;
+
+
+
+
+
 
     Pixel *pixel = camera.screen.start;
+
 
     int halfNx = camera.Nx - camera.Nx / 2;
     int halfNy = camera.Ny - camera.Ny / 2; 

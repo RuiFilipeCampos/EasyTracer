@@ -20,15 +20,11 @@ typedef struct Screen{
 } Screen;
 
 
-
-
 typedef struct Camera{
 	double d;         // closest distance from origin to screen
 	double3 origin;   // origin of rays
 	Screen screen;    // the array of detectors (Pixel)
 } Camera;
-
-
 
 
 Camera create_simple_camera(int Nx, int Ny);
