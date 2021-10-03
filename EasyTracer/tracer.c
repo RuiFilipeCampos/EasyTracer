@@ -13,6 +13,16 @@
 
 
 double dot_product(double3 A, double3 B){ return A.x*B.x + A.y*B.y + A.z*B.z; };
+double3 minus(double3 A, double3 B){ 
+    double3 result;
+
+    result.x = A.x - B.x;
+    result.y = A.y - B.y;
+    result.z = A.z - B.z;
+    return result; 
+    
+    };
+
 
 
 
@@ -36,8 +46,8 @@ Camera create_simple_camera(int Nx, int Ny){
 
 
 	camera.d = 1;
-	camera.screen.dx = camera.d/4;
-	camera.screen.dy = camera.d/4;
+	camera.screen.dx = .001;
+	camera.screen.dy = .001;
 
     int halfNx = camera.screen.Nx - camera.screen.Nx / 2;
     int halfNy = camera.screen.Ny - camera.screen.Ny / 2;
@@ -48,7 +58,10 @@ Camera create_simple_camera(int Nx, int Ny){
     int i = 0;                              // counting iterations 
     double inv_norm; 
 
-    while (pixel != camera.screen.end){
+    //while (pixel != camera.screen.end){
+    
+    for (nx = 0; nx < Nx; ++nx){
+        for (ny = 0; ny < Ny; ++ny){
         /* 
         // I think this will be faster, at least this time, I don't need to store these values
         // nx = i % Ny;
@@ -63,11 +76,13 @@ Camera create_simple_camera(int Nx, int Ny){
 
         // determine the pixels direction in this frame 
         // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
-        (*pixel).z = camera.d;                                     // vector is now touching the screen
-        (*pixel).x = (halfNx + i % Ny)*camera.screen.dx;           // correct x position
-        (*pixel).y = (halfNy + i % Nx)*camera.screen.dy;           // correct y position
+        (*pixel).z = camera.d;  
+        
+                                           // vector is now touching the screen
+        (*pixel).x = ((double) (halfNx + nx))  *camera.screen.dx;           // correct x position
+        (*pixel).y = ((double) (halfNy + ny))  *camera.screen.dy;           // correct y position
 
-
+        
 
 
         // normalizing the pixel
@@ -77,8 +92,11 @@ Camera create_simple_camera(int Nx, int Ny){
         (*pixel).x *= inv_norm;
         (*pixel).y *= inv_norm;
 
+        // printf("(%f, ", pixel->x);
+        // printf("%f, ", pixel->y); 
+        // printf("%f) \n", pixel->z); 
         ++pixel;
-        ++i;
+        };
     };
 
     return camera;
@@ -98,30 +116,43 @@ void render(Camera *camera, SDL_Surface *surface)
     sphere.center.z = 5;
     sphere.radius   = 1;
 
-
     double3 origin = camera->origin;
-    double a, b, c;
-    Pixel *pixel = camera->screen.start; 
-
-
+    Pixel *pixel = camera->screen.start;
 
     SDL_LockSurface(surface);
 
-    printf("surface->h = %d", surface->h);
-    printf("surface->pitch = %d", surface->pitch);
+    // printf("surface->h = %d", surface->h);
+    // printf("surface->pitch = %d", surface->pitch);
 
     // SDL_memset(surface->pixels, 255, surface->h * surface->pitch);
 
     uint8_t *window_pixel = (uint8_t *) surface->pixels ;
     uint8_t intersected;
 
+
+
+
+    double b, c;
+
+    double3 OC; 
+    OC = minus(camera->origin, sphere.center);
+    double OCsq = dot_product(OC, OC);
+    c = OCsq - sphere.radius*sphere.radius; 
+
+
     while (pixel != camera->screen.end){
         
         //b = 2 * pixel->dire * () ;
         // c = ;
-        b = 0; c = 1; 
+        
 
+        b = 2*dot_product(*pixel, OC);
         intersected =  255*( (uint8_t) (b*b - 4*c > 0) ) ;
+
+       // printf("(%d, ", pixel->x);
+       // printf("%d, ", pixel->y); 
+       // printf("%d) \n", pixel->z); 
+
 
         
         
@@ -137,7 +168,7 @@ void render(Camera *camera, SDL_Surface *surface)
         ++window_pixel;
 
         // alpha ??  --- not sure what this is
-        *window_pixel = 0;
+        // *window_pixel = 0;
         ++window_pixel;
     
 
