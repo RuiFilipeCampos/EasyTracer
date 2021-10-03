@@ -65,7 +65,6 @@ int main( int argc, char **argv )
      *  INITIALIZING THE RAY TRACER
      * *********************************************/
 
-
     Camera camera = create_simple_camera(window_header.Nx, window_header.Ny);
 
 
@@ -75,26 +74,27 @@ int main( int argc, char **argv )
 
 
     SDL_Event event;
+
     bool keep_open = true;
 
-
-    render(&camera, &window_surface);
+    render(&camera, window_surface);
     SDL_UpdateWindowSurface(window);
 
-    while (keep_open & SDL_PollEvent(&event)){
+    while (keep_open){
+        while (SDL_PollEvent(&event)){
+            switch (event.type)
+            {
+                case SDL_QUIT:
+                    keep_open = false;
+                    break;
+                
+                default:
+                    continue; // the default should be this thing
+                    // rendering will occur on user input 
+            };
 
-        switch (event.type)
-        {
-            case SDL_QUIT:
-                keep_open = false;
-                break;
-            
-            default:
-                continue; // the default should be this thing
-                // rendering will occur on user input 
-
-                break;
         };
+
 
     };
 

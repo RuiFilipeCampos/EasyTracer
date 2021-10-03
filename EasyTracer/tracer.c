@@ -12,7 +12,7 @@
 
 
 
-double dot_product(double3 A, double3 B){ return A.x*B.x + A.y*B.y + A.z* };
+double dot_product(double3 A, double3 B){ return A.x*B.x + A.y*B.y + A.z*B.z; };
 
 
 
@@ -105,15 +105,28 @@ void render(Camera *camera, SDL_Surface *surface)
 
     bool intersected;
 
+
+    SDL_LockSurface(surface);
+
+    printf("surface->h = %d", surface->h);
+    printf("surface->pitch = %d", surface->pitch);
+
+    SDL_memset(surface->pixels, 255, surface->h * surface->pitch);
+
+
     while (pixel != camera->screen.end){
         
-        b = 2 * pixel->dire * () ;
-        c = ;
+        //b = 2 * pixel->dire * () ;
+        // c = ;
 
 
-        intersected = b*b - 4*c < 0;
-        ++pixel;
+        // intersected = b*b - 4*c < 0;
         
+        intersected = true; 
+        ++pixel;
+
     };
+
+    SDL_UnlockSurface(surface);
 
 };

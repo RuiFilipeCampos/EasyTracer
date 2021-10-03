@@ -1,4 +1,5 @@
 
+#include <SDL2/SDL.h>
 
 // a 3 dimensional vector
 typedef struct double3{
@@ -28,4 +29,4 @@ typedef struct Camera{
 
 
 Camera create_simple_camera(int Nx, int Ny);
-void render(char* buffer, bool update);
+void render(Camera *camera, SDL_Surface *surface);
