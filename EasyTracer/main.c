@@ -65,7 +65,8 @@ int main( int argc, char **argv )
      *  INITIALIZING THE RAY TRACER
      * *********************************************/
 
-    Camera camera = create_simple_camera(6.8, 4.8, window_header.Nx, window_header.Ny);
+    // screen is 1cm by 1cm
+    Camera camera = create_simple_camera(1, 1, window_header.Nx, window_header.Ny);
 
 
     /************************************************

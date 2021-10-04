@@ -56,7 +56,7 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
     camera.screen.end = camera.screen.start + Nx*Ny;
 
 
-	camera.d = 20;
+	camera.d = 1;
 	camera.screen.dx = X/Nx;
 	camera.screen.dy = Y/Ny;
 
@@ -66,8 +66,10 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
     // should be the fastest way to iterate it
     Pixel *pixel = camera.screen.start;
     
-    for (int nx = 0; nx < Nx; ++nx){
-        for (int ny = 0; ny < Ny; ++ny){
+
+    // CAREFUL WITH THIS
+    for (int ny = 0; ny < Ny; ++ny){
+        for (int nx = 0; nx < Nx; ++nx){
     
         // determine the pixels direction in this frame 
         // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
@@ -80,11 +82,16 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
         // ok, so: nx and ny are growing, so I should start at the minimum possible value of each coord
         // that be like, (-halfNX*dx, -halfNy*dy)
 
-        (*pixel).x = ((double) (nx - halfNx))  * camera.screen.dx;           // correct x position
-        (*pixel).y = ((double) (ny + halfNy))  * camera.screen.dy;           // correct y position
+        (*pixel).x = ((double) (nx - halfNx) )  * camera.screen.dx;           // correct x position
+        (*pixel).y = ((double) (- ny + halfNy ) ) * camera.screen.dy;         // correct y position
+
 
         // normalizing the pixel
-        double inv_norm = 1/sqrt( pow((*pixel).x, 2) + pow((*pixel).y, 2)  + pow((*pixel).z, 2) );
+        double inv_norm = 1/sqrt( pow( (*pixel).x , 2) 
+                                + pow( (*pixel).y , 2)  
+                                + pow( (*pixel).z , 2) 
+                                );
+
 
         (*pixel).z *= inv_norm;                    
         (*pixel).x *= inv_norm;
@@ -93,6 +100,7 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
         // printf("(%f, ", pixel->x);
         // printf("%f, ", pixel->y); 
         // printf("%f) \n", pixel->z); 
+
         ++pixel;
         };
     };
@@ -111,12 +119,12 @@ void render(Camera *camera, SDL_Surface *surface)
     Sphere sphere;
     sphere.center.x = 0; 
     sphere.center.y = 0; 
-    sphere.center.z = 40;
+    sphere.center.z = 2;
 
-    sphere.radius   = 10;
+    sphere.radius   = 0.8;
 
     double3 origin = camera->origin;
-    Pixel *pixel = camera->screen.start;
+    Pixel *pixel   = camera->screen.start;
 
     SDL_LockSurface(surface);
 
@@ -124,7 +132,7 @@ void render(Camera *camera, SDL_Surface *surface)
     uint8_t intersected;
 
     double b, c;
-    double3 OC = minus(sphere.center,  camera->origin);
+    double3 OC = minus(sphere.center,  origin);
     double OCsq = dot_product(OC, OC);
     c = OCsq - sphere.radius*sphere.radius; 
 
@@ -140,7 +148,9 @@ void render(Camera *camera, SDL_Surface *surface)
 
        // printf("(%d, ", pixel->x);
        // printf("%d, ", pixel->y); 
-       // printf("%d) \n", pixel->z); 
+       // printf("%d) \n", pixel->z);
+
+     //  printf("%f \n", dot_product(*pixel, *pixel));
 
 
         // R
