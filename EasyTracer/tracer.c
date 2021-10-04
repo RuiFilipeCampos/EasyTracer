@@ -126,7 +126,7 @@ void render(Camera *camera, SDL_Surface *surface)
 
     SDL_LockSurface(surface);
 
-    uint8_t *window_pixel = (uint8_t *) surface->pixels ;
+    uint8_t *window_pixel = (uint8_t *) surface->pixels;
     uint8_t intersected;
 
     double b, c;
@@ -134,12 +134,13 @@ void render(Camera *camera, SDL_Surface *surface)
     double OCsq = dot_product(OC, OC);
     c = OCsq - sphere.radius*sphere.radius; 
 
-
+    double delta; 
     do{
 
 
         b = 2*dot_product(*pixel, OC);
-        intersected =  255*( (uint8_t) (b*b - 4*c > 0) );
+        delta = b*b - 4*c;
+        intersected =  255*( (uint8_t) (delta > 0 & b > 2*sqrt(delta) ) );
 
 
         // R
