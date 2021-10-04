@@ -2,7 +2,9 @@
 
 
 #include "tracer.h"
+
 #include "primitives.h"
+
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -114,14 +116,8 @@ void render(Camera *camera, SDL_Surface *surface)
 {
     
     // let's do a sphere located at z = 5 with radius of 1
-    Sphere sphere;
-    sphere.center.x = 0; 
-    sphere.center.y = 0; 
-    sphere.center.z = 15;
+    Sphere sphere = new_Sphere(0, 0, 15, 0.8);
 
-    sphere.radius   = 0.8;
-
-    double3 origin = camera->origin;
     Pixel *pixel   = camera->screen.start;
 
     SDL_LockSurface(surface);
@@ -130,7 +126,7 @@ void render(Camera *camera, SDL_Surface *surface)
     uint8_t intersected;
 
     double b, c;
-    double3 OC = minus(sphere.center,  origin);
+    double3 OC = minus(sphere.center,  camera->origin);
     double OCsq = dot_product(OC, OC);
     c = OCsq - sphere.radius*sphere.radius; 
 
@@ -138,10 +134,10 @@ void render(Camera *camera, SDL_Surface *surface)
     do{
 
 
-        b = 2*dot_product(*pixel, OC);
-        delta = b*b - 4*c;
-        intersected =  255*( (uint8_t) (delta > 0 & b > 2*sqrt(delta) ) );
-
+        // b = 2*dot_product(*pixel, OC);
+        // delta = b*b - 4*c;
+        // intersected =  255*( (uint8_t) (delta > 0 & b > 2*sqrt(delta) ) );
+        intersected =  255 * sphere.base.intersect((void*)&sphere, &(camera->origin), pixel);  
 
         // R
         *window_pixel = intersected;

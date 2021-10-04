@@ -1,12 +1,11 @@
+#ifndef _TRACERH_
+#define _TRACERH_
 
 #include <SDL2/SDL.h>
 
-// a 3 dimensional vector
-typedef struct double3{
-	double x;
-	double y;
-	double z;
-} double3;
+#include "primitives.h"
+
+#include "types.h"
 
 
 // modeling a camera pixel
@@ -30,3 +29,5 @@ typedef struct Camera{
 
 Camera create_simple_camera(double X, double Y, int Nx, int Ny); 
 void render(Camera *camera, SDL_Surface *surface);
+
+#endif
