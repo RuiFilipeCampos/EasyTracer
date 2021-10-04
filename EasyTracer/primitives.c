@@ -17,8 +17,9 @@
 
 
 
-double intersect_sphere(void *this, double3 *origin, double3 *direction){
-    Sphere *sphere = (Sphere *) this;
+double intersect_sphere(void *self, double3 *origin, double3 *direction){
+    // not letting me use the name `this`. gonna use 'self' 
+    Sphere *sphere = (Sphere *) self; //probly unnecessary 
     return 1; 
 };
 

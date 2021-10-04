@@ -9,7 +9,7 @@ Primitive Solids
 
 typedef struct RGB{
     int R, G, B; 
-}RGB;
+} RGB;
 
 typedef struct Object{
     RGB color;
