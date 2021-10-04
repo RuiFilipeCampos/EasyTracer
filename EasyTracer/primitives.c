@@ -45,6 +45,8 @@ Sphere new_Sphere(double x, double y, double z, double radius){
 
     sphere.base.intersect = &intersect_sphere;
 
+    return sphere; 
+
 
 
 };
