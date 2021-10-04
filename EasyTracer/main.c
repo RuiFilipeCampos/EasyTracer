@@ -89,6 +89,8 @@ int main( int argc, char **argv )
                     break;
                 
                 default:
+                    render(&camera, window_surface);
+                    SDL_UpdateWindowSurface(window);
                     continue; // the default should be this thing
                     // rendering will occur on user input 
             };

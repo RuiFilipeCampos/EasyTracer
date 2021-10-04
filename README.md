@@ -1,13 +1,15 @@
 # EasyTracer
 
+## Intro
+
 A ray tracer I'm building for fun.
 
 Plan:
 
-- build geometry in a python script
+- build geometry in a Lua script
 - explore the 3d environment (powered by C and the SDF library)
 
-How it will work:
+## How it works:
 
 A `Pixel` is defined as a unit vector located at some position,
 
@@ -24,7 +26,6 @@ The position is not included in the codes definition of `Pixel` because that qua
 A screen is an array of pixels,
 
 ```C
-
 typdef struct Screen{
     double dx, dy; // the size of a pixel
     Pixel *start;  // the start of the array
@@ -49,11 +50,16 @@ struct Camera{
 };
 ```
 
+Rays originate from `camera.origin` with direction defined by each `Pixel` in the `Screen`.
+
+## Constructing the Camera
+
+- What should be the parameters?
 
 
 to do:
 
 - [x] set up SDL https://www.libsdl.org/
 - [x] opening a window
-- [ ] drawing on window, pixel by pixel (possible? ->> yee)
-- [ ] update selected pixels (possible?)
+- [x] drawing on window, pixel by pixel (possible? ->> yee)
+- [x] update selected pixels (possible?)

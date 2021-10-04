@@ -12,7 +12,11 @@
 
 
 
-double dot_product(double3 A, double3 B){ return A.x*B.x + A.y*B.y + A.z*B.z; };
+double dot_product(double3 A, double3 B){ 
+    return A.x*B.x + A.y*B.y + A.z*B.z;
+    };
+
+
 double3 minus(double3 A, double3 B){ 
     double3 result;
 
@@ -52,7 +56,7 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
     camera.screen.end = camera.screen.start + Nx*Ny;
 
 
-	camera.d = 1;
+	camera.d = 20;
 	camera.screen.dx = X/Nx;
 	camera.screen.dy = Y/Ny;
 
@@ -107,9 +111,9 @@ void render(Camera *camera, SDL_Surface *surface)
     Sphere sphere;
     sphere.center.x = 0; 
     sphere.center.y = 0; 
-    sphere.center.z = 10;
+    sphere.center.z = 40;
 
-    sphere.radius   = 5;
+    sphere.radius   = 10;
 
     double3 origin = camera->origin;
     Pixel *pixel = camera->screen.start;
