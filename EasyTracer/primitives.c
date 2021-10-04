@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-
+#include <stdint.h>
 
 
 /*********
@@ -36,7 +36,7 @@ double intersect_sphere(void *self, double3 *origin, double3 *direction){
     return (double) (delta > 0 & b > 2*sqrt(delta) )  ; 
 };
 
-Sphere new_Sphere(double x, double y, double z, double radius){
+Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_t G, uint8_t B){
     /*
     PARAMETERS:
         COORDINATES OF THE CENTER OF THE SPHERE (cm):
@@ -55,10 +55,13 @@ Sphere new_Sphere(double x, double y, double z, double radius){
     sphere.center.z = z;
     sphere.radius = radius;
 
+    sphere.base.color.R = R;
+    sphere.base.color.G = G;
+    sphere.base.color.B = B; 
+
     // base stuff
 
     sphere.base.intersect = &intersect_sphere;
-
     return sphere; 
 
 

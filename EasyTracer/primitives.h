@@ -5,6 +5,8 @@
 Primitive Solids
 */
 
+#include <stdint.h>
+
 #include "types.h"
 
 typedef struct RGB{
@@ -23,7 +25,6 @@ typedef struct Sphere{
     double radius;
 } Sphere;
 
-
-Sphere new_Sphere(double x, double y, double z, double radius);
+Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_t G, uint8_t B);
 
 #endif

@@ -13,12 +13,6 @@
 
 
 
-
-
-
-
-
-
 Camera create_simple_camera(double X, double Y, int Nx, int Ny){
     /*
     PARAMETERS:
@@ -100,11 +94,11 @@ void render(Camera *camera, SDL_Surface *surface)
 {
     // let's do a sphere located at z = 5 with radius of 1
 
-
-    Sphere sphere = new_Sphere(0, 0, 15, 0.8);
-
+    Sphere sphere = new_Sphere(0, 0, 15, // center of the sphere 
+                               0.8, // radius of the sphere
+                               0, 255, 255 // sphere color
+                               );
     Pixel *pixel   = camera->screen.start;
-
     SDL_LockSurface(surface);
 
     uint8_t *window_pixel = (uint8_t *) surface->pixels;
@@ -112,23 +106,24 @@ void render(Camera *camera, SDL_Surface *surface)
 
 
 
-    double delta; 
+    double delta;
+
+
     do{
 
-
-
-        intersected =  255 * sphere.base.intersect((void*)&sphere, &(camera->origin), pixel);  
+        
+        double intensity =  sphere.base.intersect((void*)&sphere, &(camera->origin), pixel);  // this should take into account shadows and stuff
 
         // R
-        *window_pixel = intersected;
+        *window_pixel = intensity*sphere.base.color.R; // intensity is a fraction, the color val is the standard 0 to 255
         ++window_pixel;
 
         // G
-        *window_pixel = intersected;
+        *window_pixel = intensity*sphere.base.color.G;
         ++window_pixel;
 
         // B
-        *window_pixel = intersected;
+        *window_pixel = intensity*sphere.base.color.B;
         ++window_pixel;
 
         // alpha ??  --- not sure what this is
