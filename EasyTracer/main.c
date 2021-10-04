@@ -22,7 +22,7 @@ int main( int argc, char **argv )
     if (SDL_Init(SDL_INIT_VIDEO) < 0){
         printf("Failed to initialize `SDL`.");
         printf("STD Error: ");
-        printf(SDL_GetError());
+        // printf(SDL_GetError());
         return -1;
     };
 
@@ -43,7 +43,7 @@ int main( int argc, char **argv )
 
         printf("Failed to create window.");
         printf("STD Error: ");
-        printf(SDL_GetError());
+        // printf(SDL_GetError());
         
         return -1;
     };
@@ -54,7 +54,7 @@ int main( int argc, char **argv )
     {
         printf("Failed to get the surface of the window.");
         printf("STD Error: ");
-        printf(SDL_GetError());
+        // printf(SDL_GetError());
         return -1;
     };
 
