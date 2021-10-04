@@ -2,7 +2,6 @@
 
 
 #include "tracer.h"
-
 #include "primitives.h"
 
 
@@ -17,6 +16,8 @@
 double dot_product(double3 A, double3 B){ 
     return A.x*B.x + A.y*B.y + A.z*B.z;
     };
+
+
 
 
 double3 minus(double3 A, double3 B){ 
@@ -110,12 +111,12 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
 
 
 
-
 // gotta recall what is this buffer stuff
 void render(Camera *camera, SDL_Surface *surface)
 {
-    
     // let's do a sphere located at z = 5 with radius of 1
+
+
     Sphere sphere = new_Sphere(0, 0, 15, 0.8);
 
     Pixel *pixel   = camera->screen.start;

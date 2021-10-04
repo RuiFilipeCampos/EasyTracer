@@ -1,9 +1,10 @@
-#ifndef _TRACERH_
-#define _TRACERH_
+#ifndef _PRIMITIVESH_
+#define _PRIMITIVESH_
 
 /*
 Primitive Solids
 */
+
 #include "types.h"
 
 typedef struct RGB{
