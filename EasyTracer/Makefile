@@ -1,2 +1,2 @@
 all:
-	g++ -Isrc/include -Lsrc/lib -o main main.c tracer.c primitives.c -lmingw32 -l:libSDL2main.a -l:libSDL2.dll.a
+	g++ -Isrc/include -Lsrc/lib -o main main.c tracer.c primitives.c types.c -lmingw32 -l:libSDL2main.a -l:libSDL2.dll.a

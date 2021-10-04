@@ -13,22 +13,6 @@
 
 
 
-double dot_product(double3 A, double3 B){ 
-    return A.x*B.x + A.y*B.y + A.z*B.z;
-    };
-
-
-
-
-double3 minus(double3 A, double3 B){ 
-    double3 result;
-
-    result.x = A.x - B.x;
-    result.y = A.y - B.y;
-    result.z = A.z - B.z;
-    return result; 
-    
-    };
 
 
 
@@ -126,18 +110,13 @@ void render(Camera *camera, SDL_Surface *surface)
     uint8_t *window_pixel = (uint8_t *) surface->pixels;
     uint8_t intersected;
 
-    double b, c;
-    double3 OC = minus(sphere.center,  camera->origin);
-    double OCsq = dot_product(OC, OC);
-    c = OCsq - sphere.radius*sphere.radius; 
+
 
     double delta; 
     do{
 
 
-        // b = 2*dot_product(*pixel, OC);
-        // delta = b*b - 4*c;
-        // intersected =  255*( (uint8_t) (delta > 0 & b > 2*sqrt(delta) ) );
+
         intersected =  255 * sphere.base.intersect((void*)&sphere, &(camera->origin), pixel);  
 
         // R

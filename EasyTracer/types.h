@@ -8,4 +8,11 @@ typedef struct double3{
 	double z;
 } double3;
 
+
+double dot_product(double3 A, double3 B); 
+
+
+double3 subtract_vectors(double3 A, double3 B);
+
+
 #endif
