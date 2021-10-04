@@ -18,7 +18,8 @@ jobs:
     - name: make
       run: |
         cd EasyTracer # got cd into the project folder
-        make
+        	g++ -Isrc/include -Lsrc/lib -o main main.c tracer.c primitives.c types.c -l:libSDL2main.a -l:libSDL2.dll.a
+        
     - name: make check
       run: make check
     - name: make distcheck
