@@ -66,7 +66,7 @@ int main( int argc, char **argv )
      * *********************************************/
 
     // screen is 1cm by 1cm
-    Camera camera = create_simple_camera(1, 1, window_header.Nx, window_header.Ny);
+    Camera camera = create_simple_camera(6.8, 4.8, window_header.Nx, window_header.Ny);
 
 
     /************************************************
@@ -85,15 +85,40 @@ int main( int argc, char **argv )
         while (SDL_PollEvent(&event)){
             switch (event.type)
             {
+                case SDL_KEYDOWN:
+
+                    switch (event.key.keysym.sym)
+                    {
+                        case SDLK_w:
+                            camera.origin.z += 0.1;
+                            break;
+                        case SDLK_s:
+                            camera.origin.z -= 0.1;
+                            break;
+                        case SDLK_a:
+                            camera.origin.x += 0.1;
+                            break;
+                        case SDLK_d:
+                            camera.origin.x -= 0.1;
+                            break;
+                    
+                        default:
+                            break;
+                    }
+                    render(&camera, window_surface);
+                    SDL_UpdateWindowSurface(window);
+                    break; 
+
                 case SDL_QUIT:
                     keep_open = false;
                     break;
+
+                
                 
                 default:
                     render(&camera, window_surface);
                     SDL_UpdateWindowSurface(window);
-                    continue; // the default should be this thing
-                    // rendering will occur on user input 
+                    break; 
             };
 
         };

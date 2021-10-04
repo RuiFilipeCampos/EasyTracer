@@ -56,7 +56,7 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
     camera.screen.end = camera.screen.start + Nx*Ny;
 
 
-	camera.d = 1;
+	camera.d = 10;
 	camera.screen.dx = X/Nx;
 	camera.screen.dy = Y/Ny;
 
@@ -74,8 +74,6 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
         // determine the pixels direction in this frame 
         // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
 
-
-
         (*pixel).z = camera.d;  // it is now touching the screen
         
 
@@ -83,7 +81,7 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
         // that be like, (-halfNX*dx, -halfNy*dy)
 
         (*pixel).x = ((double) (nx - halfNx) )  * camera.screen.dx;           // correct x position
-        (*pixel).y = ((double) (- ny + halfNy ) ) * camera.screen.dy;         // correct y position
+        (*pixel).y = ((double) (halfNy - ny ) ) * camera.screen.dy;         // correct y position
 
 
         // normalizing the pixel
@@ -119,7 +117,7 @@ void render(Camera *camera, SDL_Surface *surface)
     Sphere sphere;
     sphere.center.x = 0; 
     sphere.center.y = 0; 
-    sphere.center.z = 2;
+    sphere.center.z = 15;
 
     sphere.radius   = 0.8;
 
@@ -138,19 +136,10 @@ void render(Camera *camera, SDL_Surface *surface)
 
 
     do{
-        
-        //b = 2 * pixel->dire * () ;
-        // c = ;
-        
+
 
         b = 2*dot_product(*pixel, OC);
         intersected =  255*( (uint8_t) (b*b - 4*c > 0) );
-
-       // printf("(%d, ", pixel->x);
-       // printf("%d, ", pixel->y); 
-       // printf("%d) \n", pixel->z);
-
-     //  printf("%f \n", dot_product(*pixel, *pixel));
 
 
         // R
@@ -168,8 +157,6 @@ void render(Camera *camera, SDL_Surface *surface)
         // alpha ??  --- not sure what this is
         // *window_pixel = 0;
         ++window_pixel;
-    
-
         ++pixel;
 
     } while (pixel != camera->screen.end);
