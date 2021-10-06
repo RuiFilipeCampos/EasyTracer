@@ -9,6 +9,12 @@ Plan:
 - build geometry in a Lua script
 - explore the 3d environment (powered by C and the SDF library)
 
+## Current state of the project
+
+[![EasyTracer](https://yt-embed.herokuapp.com/embed?v=RByLQXJQaPQ)](https://www.youtube.com/watch?v=RByLQXJQaPQ "EasyTracer ")
+
+
+
 ## How it works:
 
 A `Pixel` is defined as a unit vector located at some position,
