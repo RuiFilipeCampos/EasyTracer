@@ -84,3 +84,4 @@ Quaternions are obligatory I think. Cuz of their continuous rotation thing (chai
 - [ ] how to turn that into a math rotation thingy
 - [ ] how to efficiently rotate thousands of unit vectors continuously ? :C
     - [ ] Can I use [SIMD](https://en.wikipedia.org/wiki/SIMD) stuff for this? 
+    - [ ] https://en.wikipedia.org/wiki/OpenGL
