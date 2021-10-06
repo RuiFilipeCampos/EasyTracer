@@ -58,10 +58,9 @@ struct Camera{
 
 Rays originate from `camera.origin` with direction defined by each `Pixel` in the `Screen`.
 
-## Constructing the Camera
 
-- What should be the parameters?
-
+## Tasks 
+### Constructing the Camera (done)
 
 to do:
 
@@ -69,3 +68,14 @@ to do:
 - [x] opening a window
 - [x] drawing on window, pixel by pixel (possible? ->> yee)
 - [x] update selected pixels (possible?)
+
+### Shadows
+
+- [ ] light source
+- [ ] include calculation of normal vecs at a pos
+
+### Rotating the camera
+
+This will likely be the hards part.
+
+Quaternions are obligatory I think.
