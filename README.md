@@ -103,7 +103,7 @@ This will likely be the hardest part.
 Quaternions are obligatory I think. Cuz of their continuous rotation thing (chaining quaternions is supposed to be easy) -> https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#The_composition_of_spatial_rotations
 
 - [ ] what does the mouse dragg input look like?
-- [ ] how to turn that into a math rotation thingy
+- [ ] how to turn that into ~~a math rotation thingy~~ a mathematical representation of the corresponding rotation
 - [ ] how to efficiently rotate thousands of unit vectors continuously ? :C
     - [ ] Can I use [SIMD](https://en.wikipedia.org/wiki/SIMD) stuff for this? 
     - [ ] https://en.wikipedia.org/wiki/OpenGL
