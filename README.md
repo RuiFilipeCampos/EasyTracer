@@ -73,6 +73,26 @@ to do:
 
 ### Shadows
 
+#### Light source
+
+It makes sense for light sources to be a position + unit vector (a ray basically). 
+
+```C
+typdef struct LightSource{
+	double3 position;
+	double3 direction;
+};
+```
+
+To save time I think the unit vector should point away from where the light is being shined. The algo itself should be something like
+
+- get the position of the intersection
+- check that the ray  `position_of_intersection + light_source.direction` does not hit anything
+    - IF TRUE: add 0 to pixel
+    - IF FALSE
+        - calculate normal vector to that position in the sphere
+        - calculate the dot product -> that's the value to add to the pixel   
+
 - [ ] light source
 - [ ] include calculation of normal vecs at a pos
 
