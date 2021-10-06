@@ -76,6 +76,10 @@ to do:
 
 ### Rotating the camera
 
-This will likely be the hards part.
+This will likely be the hardest part.
 
 Quaternions are obligatory I think.
+
+- [ ] what does the mouse dragg input look like?
+- [ ] how to turn that into a math rotation thingy
+- [ ] how to efficiently rotate thousands of unit vectors continuously ? :C
