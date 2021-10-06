@@ -58,6 +58,8 @@ struct Camera{
 
 Rays originate from `camera.origin` with direction defined by each `Pixel` in the `Screen`.
 
+> `camera.d` might be useless, `d` is only used for constructing the screen
+
 
 ## Tasks 
 ### Constructing the Camera (done)
