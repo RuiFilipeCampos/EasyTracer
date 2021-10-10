@@ -8,6 +8,8 @@
 
 
 struct Sphere; 
+struct Plane;
+
 
 // modeling a camera pixel
 typedef double3 Pixel;
@@ -29,7 +31,7 @@ typedef struct Camera{
 
 
 Camera create_simple_camera(double X, double Y, int Nx, int Ny); 
-void render(Camera *camera, SDL_Surface *surface, Sphere* sphere);
+void render(Camera *camera, SDL_Surface *surface, Sphere* sphere, Plane *plane);
 
 
 typedef struct LightSource{

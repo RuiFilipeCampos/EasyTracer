@@ -90,7 +90,7 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
 
 
 // gotta recall what is this buffer stuff
-void render(Camera *camera, SDL_Surface *surface, Sphere *sphere)
+void render(Camera *camera, SDL_Surface *surface, Sphere *sphere, Plane *plane)
 {
     // let's do a sphere located at z = 5 with radius of 1
 
@@ -106,7 +106,7 @@ void render(Camera *camera, SDL_Surface *surface, Sphere *sphere)
     double3 light_source;
 
     light_source.x = 0;
-    light_source.y =  1.5;
+    light_source.y =  0.25;
     light_source.z =  15;
 
 
@@ -116,16 +116,12 @@ void render(Camera *camera, SDL_Surface *surface, Sphere *sphere)
 
         
         double intensity =  sphere->base.intersect((void*)sphere, &light_source, &(camera->origin), pixel);  // this should take into account shadows and stuff
-        if (intensity > 0){
-
-         // printf("%f", intensity);
-
-        };
-
- 
+        double intensity0 =  plane->base.intersect((void*)plane, &light_source, &(camera->origin),  pixel);  // this should take into account shadows and stuff
+    
 
         // R
         *window_pixel = intensity*sphere->base.color.R; // intensity is a fraction, the color val is the standard 0 to 255
+        *window_pixel += 255*intensity0;
         ++window_pixel;
 
         // G
@@ -134,6 +130,8 @@ void render(Camera *camera, SDL_Surface *surface, Sphere *sphere)
 
         // B
         *window_pixel = intensity*sphere->base.color.B;
+                 
+
         ++window_pixel;
 
         // alpha ??  --- not sure what this is

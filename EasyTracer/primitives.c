@@ -88,42 +88,7 @@ double intersect_sphere(void *self, double3* light_source, double3 *camera_origi
 
     return 0; 
 
-/*
-    if ( (delta > 0 & b > 2*sqrt(delta)) ){ 
-        
-        double t1 = -b - 2*sqrt(delta);
 
-        double3 intersection_point;
-
-        intersection_point.x = origin->x + direction->x*t1;
-        intersection_point.y = origin->y + direction->y*t1;
-        intersection_point.z = origin->z + direction->z*t1;
-
-        double3 _normal;
-        double3 _direction;
-
-        _normal = subtract_vectors( intersection_point, _self->center);
-        _direction = subtract_vectors( light_source->position, intersection_point); 
-
-        normalize(&_normal);
-        normalize(&_direction); 
-
-        double res = dot_product(_normal, _direction);
-
-        if (res < 0){
-            return 0;
-        };
-
-        
-
-        return exp(sqrt(res));
-        
-        }; // le first branch appears
-
-
-    return 0;
-
-*/
 };
 
 Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_t G, uint8_t B){
@@ -153,6 +118,78 @@ Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_
 
     sphere.base.intersect = &intersect_sphere;
     return sphere; 
+
+
+
+};
+
+
+
+
+
+double intersect_plane(void *self, double3* light_source, double3 *camera_origin, double3 *pixel){
+
+    Plane *plane = (Plane*) self;
+
+    double ln = dot_product(plane->direction, *pixel);
+    if (ln == 0){return 0; }
+
+    double t0 = dot_product(
+        subtract_vectors(plane->position, *light_source),
+        plane->direction
+    ) / ln;
+
+
+    if (t0 < 0){return 0;};
+
+    // where is the nearest intersection ? 
+    double3 intersection_point;
+    intersection_point.x = camera_origin->x + t0*pixel->x;
+    intersection_point.y = camera_origin->y + t0*pixel->y;
+    intersection_point.z = camera_origin->z + t0*pixel->z;
+
+    // from intersection to source
+    double3 intersection_source;
+    intersection_source.x = light_source->x - intersection_point.x;
+    intersection_source.y = light_source->y - intersection_point.y;
+    intersection_source.z = light_source->z - intersection_point.z;
+    normalize(&intersection_source);
+
+
+    return dot_product(intersection_source, plane->direction); 
+
+
+}; 
+
+
+
+
+Plane new_Plane(double x, double y, double z, double nx, double ny, double nz, uint8_t R, uint8_t G, uint8_t B){
+    /*
+    PARAMETERS:
+
+    */
+
+    Plane plane;
+
+    // geometric parameters
+    plane.position.x = x;
+    plane.position.y = y;
+    plane.position.z = z;
+
+    plane.direction.x = nx;
+    plane.direction.y = ny;
+    plane.direction.z = nz;
+
+    // color
+    plane.base.color.R = R;
+    plane.base.color.G = G;
+    plane.base.color.B = B; 
+
+    // base stuff
+
+    plane.base.intersect = &intersect_plane;
+    return plane; 
 
 
 

@@ -69,10 +69,14 @@ int main( int argc, char **argv )
     Camera camera = create_simple_camera(6.8, 4.8, window_header.Nx, window_header.Ny);
 
 
-    Sphere sphere = new_Sphere(0, 0, 15, // center of the sphere 
-                               1, // radius of the sphere
-                               0, 255, 255 // sphere color
+    Sphere sphere = new_Sphere(0, 1.5, 15,     // center of the sphere 
+                               1,            // radius of the sphere
+                               0, 255, 255   // sphere color
                                );
+
+    Plane plane = new_Plane(0, -1, 0,
+                            0, 1, 0,
+                            255, 255, 255); 
 
 
     /************************************************
@@ -84,7 +88,7 @@ int main( int argc, char **argv )
 
     bool keep_open = true;
 
-    render(&camera, window_surface, &sphere);
+    render(&camera, window_surface, &sphere, &plane);
     SDL_UpdateWindowSurface(window);
 
     while (keep_open){
@@ -126,7 +130,7 @@ int main( int argc, char **argv )
                         default:
                             break;
                     }
-                    render(&camera, window_surface, &sphere);
+                    render(&camera, window_surface, &sphere, &plane);
                     SDL_UpdateWindowSurface(window);
                     break; 
 
@@ -137,7 +141,7 @@ int main( int argc, char **argv )
                 
                 
                 default:
-                    render(&camera, window_surface, &sphere);
+                    render(&camera, window_surface, &sphere, &plane);
                     SDL_UpdateWindowSurface(window);
                     break; 
             };
