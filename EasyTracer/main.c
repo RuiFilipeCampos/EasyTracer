@@ -69,6 +69,12 @@ int main( int argc, char **argv )
     Camera camera = create_simple_camera(6.8, 4.8, window_header.Nx, window_header.Ny);
 
 
+    Sphere sphere = new_Sphere(0, 0, 15, // center of the sphere 
+                               1, // radius of the sphere
+                               0, 255, 255 // sphere color
+                               );
+
+
     /************************************************
      *  STARTING THE EVENT LOOP 
      * *********************************************/
@@ -78,7 +84,7 @@ int main( int argc, char **argv )
 
     bool keep_open = true;
 
-    render(&camera, window_surface);
+    render(&camera, window_surface, &sphere);
     SDL_UpdateWindowSurface(window);
 
     while (keep_open){
@@ -101,11 +107,26 @@ int main( int argc, char **argv )
                         case SDLK_d:
                             camera.origin.x -= 0.1;
                             break;
+
+
+
+                        case SDLK_UP:
+                            sphere.center.z += 0.1;
+                            break;
+                        case SDLK_DOWN:
+                            sphere.center.z -= 0.1;
+                            break;
+                        case SDLK_LEFT:
+                            sphere.center.x -= 0.1;
+                            break;
+                        case SDLK_RIGHT:
+                            sphere.center.x += 0.1;
+                            break;
                     
                         default:
                             break;
                     }
-                    render(&camera, window_surface);
+                    render(&camera, window_surface, &sphere);
                     SDL_UpdateWindowSurface(window);
                     break; 
 
@@ -116,7 +137,7 @@ int main( int argc, char **argv )
                 
                 
                 default:
-                    render(&camera, window_surface);
+                    render(&camera, window_surface, &sphere);
                     SDL_UpdateWindowSurface(window);
                     break; 
             };

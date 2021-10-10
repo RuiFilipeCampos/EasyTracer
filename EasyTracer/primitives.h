@@ -8,6 +8,9 @@ Primitive Solids
 #include <stdint.h>
 
 #include "types.h"
+#include "tracer.h"
+
+struct LightSource; 
 
 typedef struct RGB{
     int R, G, B; 
@@ -15,7 +18,7 @@ typedef struct RGB{
 
 typedef struct Object{
     RGB color;
-    double (*intersect)(void* , double3 *, double3 *);
+    double (*intersect)(void* , double3*, double3 *, double3 *);
 } Object;
 
 

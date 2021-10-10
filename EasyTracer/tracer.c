@@ -90,40 +90,50 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
 
 
 // gotta recall what is this buffer stuff
-void render(Camera *camera, SDL_Surface *surface)
+void render(Camera *camera, SDL_Surface *surface, Sphere *sphere)
 {
     // let's do a sphere located at z = 5 with radius of 1
 
-    Sphere sphere = new_Sphere(0, 0, 15, // center of the sphere 
-                               0.8, // radius of the sphere
-                               0, 255, 255 // sphere color
-                               );
+                            
     Pixel *pixel   = camera->screen.start;
     SDL_LockSurface(surface);
 
     uint8_t *window_pixel = (uint8_t *) surface->pixels;
-    uint8_t intersected;
 
 
 
-    double delta;
+
+    double3 light_source;
+
+    light_source.x = 0;
+    light_source.y =  1.5;
+    light_source.z =  15;
+
+
 
 
     do{
 
         
-        double intensity =  sphere.base.intersect((void*)&sphere, &(camera->origin), pixel);  // this should take into account shadows and stuff
+        double intensity =  sphere->base.intersect((void*)sphere, &light_source, &(camera->origin), pixel);  // this should take into account shadows and stuff
+        if (intensity > 0){
+
+         // printf("%f", intensity);
+
+        };
+
+ 
 
         // R
-        *window_pixel = intensity*sphere.base.color.R; // intensity is a fraction, the color val is the standard 0 to 255
+        *window_pixel = intensity*sphere->base.color.R; // intensity is a fraction, the color val is the standard 0 to 255
         ++window_pixel;
 
         // G
-        *window_pixel = intensity*sphere.base.color.G;
+        *window_pixel = intensity*sphere->base.color.G;
         ++window_pixel;
 
         // B
-        *window_pixel = intensity*sphere.base.color.B;
+        *window_pixel = intensity*sphere->base.color.B;
         ++window_pixel;
 
         // alpha ??  --- not sure what this is

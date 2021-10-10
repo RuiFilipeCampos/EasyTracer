@@ -4,9 +4,10 @@
 #include <SDL2/SDL.h>
 
 #include "primitives.h"
-
 #include "types.h"
 
+
+struct Sphere; 
 
 // modeling a camera pixel
 typedef double3 Pixel;
@@ -28,6 +29,13 @@ typedef struct Camera{
 
 
 Camera create_simple_camera(double X, double Y, int Nx, int Ny); 
-void render(Camera *camera, SDL_Surface *surface);
+void render(Camera *camera, SDL_Surface *surface, Sphere* sphere);
+
+
+typedef struct LightSource{
+	double3 direction;
+	double3 position;
+}LightSource;
+
 
 #endif
