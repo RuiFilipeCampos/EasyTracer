@@ -13,7 +13,7 @@ Plan:
 
 ## Current state of the project
 
-[![EasyTracer](https://yt-embed.herokuapp.com/embed?v=RByLQXJQaPQ)](https://www.youtube.com/watch?v=RByLQXJQaPQ "EasyTracer ")
+[![EasyTracer](https://yt-embed.herokuapp.com/embed?v=EuKUWbwAnW0)](https://www.youtube.com/watch?v=EuKUWbwAnW0 "EasyTracer ")
 
 
 
