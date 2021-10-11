@@ -8,6 +8,10 @@
 
 
 
+
+#include "cglm/include/cglm/cglm.h"
+
+
 struct WindowHeader{
     int Nx, Ny;  // size of window in pixels
 };
@@ -93,6 +97,7 @@ int main( int argc, char **argv )
 
 
     bool dragging = false;
+    bool rotating = false;
 
     // mouse position
 
@@ -120,6 +125,11 @@ int main( int argc, char **argv )
                         dragging = true;
                         SDL_GetMouseState(&mouse_position0.x, &mouse_position0.y); 
                         break;
+
+                    case SDL_BUTTON_LEFT:
+                        rotating = true;
+                        SDL_GetMouseState(&mouse_position0.x, &mouse_position0.y); 
+                        break;
                     
                     default:
                         break;
@@ -139,11 +149,21 @@ int main( int argc, char **argv )
                         render(&camera, window_surface, &sphere, &plane);
                         SDL_UpdateWindowSurface(window);
                         
+                    } else if (rotating) {
+                        SDL_GetMouseState(&mouse_positionf.x, &mouse_positionf.y);
+
+
+                        double dx = (double) (mouse_positionf.x - mouse_position0.x)/50;
+                        double dy = (double) (mouse_positionf.y - mouse_position0.y)/50;
+
+
+                        mouse_position0 = mouse_positionf;
                     };
                     break;
 
                 case SDL_MOUSEBUTTONUP:
                     dragging = false;
+                    rotating = false; 
                     break;
 
 

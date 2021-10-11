@@ -1,0 +1,3 @@
+[submodule "EasyTracer/external/cglm"]
+	path = EasyTracer/external/cglm
+	url = https://github.com/recp/cglm.git
