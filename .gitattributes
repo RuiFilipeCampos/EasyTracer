@@ -1,2 +1,4 @@
 external/src/**/* linguist-vendored
+external/* linguist-vendored
+
 
