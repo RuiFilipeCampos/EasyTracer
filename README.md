@@ -13,7 +13,14 @@ Plan:
 
 ## Current state of the project
 
-[![EasyTracer](https://yt-embed.herokuapp.com/embed?v=EuKUWbwAnW0)](https://www.youtube.com/watch?v=EuKUWbwAnW0 "EasyTracer ")
+- renders a sphere and a plane
+- one isotropic point source of light
+- able to move camera via "wasd" keys
+- able to move sphere via arrow keys
+- able to drag sphere via left mouse click + dragg
+
+
+[![EasyTracer](https://yt-embed.herokuapp.com/embed?v=I-EB3uxExtc)](https://www.youtube.com/watch?v=I-EB3uxExtc "EasyTracer ")
 
 
 
