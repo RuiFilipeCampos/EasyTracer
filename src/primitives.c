@@ -75,11 +75,11 @@ float intersect_sphere(void *self, vec3 light_source, vec3 camera_origin, vec3 p
 
             float intensity = glm_vec3_dot(center_intersection, intersection_source); 
             
-            if (intensity <= 0){ return 0.05; };
+            if (intensity <= 0){ return 0.03; };
 
-            // printf("%f  |  ", -intensity); 
+            
 
-            return sqrt(intensity);
+            return intensity/glm_vec3_distance2(intersection_point, light_source);
 
         };
     };

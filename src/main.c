@@ -80,7 +80,10 @@ int main( int argc, char **argv )
 
     Plane plane; // = new_Plane(0, -1, 0,
                    //         0, 1, 0,
-                     //       255, 255, 255); 
+                     //       255, 255, 255);
+
+
+    Object *OBJECTS = (Object *) malloc(2*sizeof(Object));
 
 
 
