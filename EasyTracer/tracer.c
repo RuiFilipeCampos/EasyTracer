@@ -89,6 +89,8 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
 
 
 
+
+
 // gotta recall what is this buffer stuff
 void render(Camera *camera, SDL_Surface *surface, Sphere *sphere, Plane *plane)
 {

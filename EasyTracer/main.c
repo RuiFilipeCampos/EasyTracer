@@ -91,14 +91,69 @@ int main( int argc, char **argv )
     render(&camera, window_surface, &sphere, &plane);
     SDL_UpdateWindowSurface(window);
 
+
+    bool dragging = false;
+
+    // mouse position
+
+    typedef struct int2{
+        int x, y;
+    }int2;
+
+    int2 mouse_position0;
+    int2 mouse_positionf;
+
+
     while (keep_open){
         while (SDL_PollEvent(&event)){
             switch (event.type)
+
             {
+
+
+                // MOUSE BUTTON PRESSED
+                case SDL_MOUSEBUTTONDOWN:
+
+                    switch (event.button.button)
+                    {
+                    case SDL_BUTTON_RIGHT:
+                        dragging = true;
+                        SDL_GetMouseState(&mouse_position0.x, &mouse_position0.y); 
+                        break;
+                    
+                    default:
+                        break;
+                    };
+
+
+                case SDL_MOUSEMOTION:
+                    if (dragging){
+                        SDL_GetMouseState(&mouse_positionf.x, &mouse_positionf.y);
+
+
+                        sphere.center.x += (double) (mouse_positionf.x - mouse_position0.x)/50;
+                        sphere.center.y -= (double) (mouse_positionf.y - mouse_position0.y)/50;
+
+
+                        mouse_position0 = mouse_positionf;
+                        render(&camera, window_surface, &sphere, &plane);
+                        SDL_UpdateWindowSurface(window);
+                        
+                    };
+                    break;
+
+                case SDL_MOUSEBUTTONUP:
+                    dragging = false;
+                    break;
+
+
+                // KEYBOARD BUTTON PRESSED
                 case SDL_KEYDOWN:
 
                     switch (event.key.keysym.sym)
                     {
+
+                        // CONTROLLING CAMERA (FPS LIKE)
                         case SDLK_w:
                             camera.origin.z += 0.1;
                             break;
@@ -113,7 +168,7 @@ int main( int argc, char **argv )
                             break;
 
 
-
+                        // CONTROL A SPHERE 
                         case SDLK_UP:
                             sphere.center.z += 0.1;
                             break;
@@ -126,6 +181,9 @@ int main( int argc, char **argv )
                         case SDLK_RIGHT:
                             sphere.center.x += 0.1;
                             break;
+
+
+
                     
                         default:
                             break;
