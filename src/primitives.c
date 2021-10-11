@@ -33,15 +33,17 @@ void normalize(double3* vector){
 };
 
 
-double intersect_sphere(void *self, double3* light_source, double3 *camera_origin, double3 *pixel){
+float intersect_sphere(void *self, vec3 light_source, vec3 camera_origin, vec3 pixel){
     // not letting me use the name `this`. gonna use 'self' 
     Sphere *sphere = (Sphere *) self;
 
-    double3 OC = subtract_vectors( *camera_origin, sphere->center); // don't like having a function call here
+    vec3 OC;
+    glm_vec3_sub(camera_origin, sphere->center, OC);
 
-    double c = dot_product(OC, OC) - sphere->radius * sphere->radius;  // can be optimized
-    double b = 2*dot_product(*pixel, OC);
-    double delta = b*b - 4*c;
+
+    float c = glm_vec3_norm2(OC) - sphere->radius * sphere->radius;  // can be optimized
+    float b = 2*glm_vec3_dot(pixel, OC);
+    float delta = b*b - 4*c;
 
     if (delta >= 0){
 
@@ -54,28 +56,24 @@ double intersect_sphere(void *self, double3* light_source, double3 *camera_origi
         if (t1 > 0){
 
             // where is the nearest intersection ? 
-            double3 intersection_point;
-            intersection_point.x = camera_origin->x + t1*pixel->x;
-            intersection_point.y = camera_origin->y + t1*pixel->y;
-            intersection_point.z = camera_origin->z + t1*pixel->z;
+            vec3 intersection_point;
+            glm_vec3_scale(pixel, t1, intersection_point);
+            glm_vec3_add(intersection_point, camera_origin, intersection_point); 
 
 
             // from intersection to source
-            double3 intersection_source;
-            intersection_source.x = light_source->x - intersection_point.x;
-            intersection_source.y = light_source->y - intersection_point.y;
-            intersection_source.z = light_source->z - intersection_point.z;
-            normalize(&intersection_source);
+            vec3 intersection_source;
+            glm_vec3_sub(light_source, intersection_point, intersection_source);
+            glm_vec3_normalize(intersection_source);
 
 
             // normal to sphere = from center to intersection
-            double3 center_intersection;
-            center_intersection.x = intersection_point.x - sphere->center.x;
-            center_intersection.y = intersection_point.y - sphere->center.y;
-            center_intersection.z = intersection_point.z - sphere->center.z;
-            normalize(&center_intersection);
+            vec3 center_intersection;
+            glm_vec3_sub(intersection_point, sphere->center, center_intersection);
+            glm_vec3_normalize(center_intersection);
 
-            double intensity = center_intersection.x*intersection_source.x + center_intersection.y*intersection_source.y + center_intersection.z*intersection_source.z;
+
+            float intensity = glm_vec3_dot(center_intersection, intersection_source); 
             
             if (intensity <= 0){ return 0.05; };
 
@@ -105,9 +103,9 @@ Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_
     Sphere sphere;
 
     // geometric parameters
-    sphere.center.x = x;
-    sphere.center.y = y;
-    sphere.center.z = z;
+    sphere.center[0] = x;
+    sphere.center[1] = y;
+    sphere.center[2] = z;
     sphere.radius = radius;
 
     sphere.base.color.R = R;
@@ -125,7 +123,7 @@ Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_
 
 
 
-
+/*
 
 double intersect_plane(void *self, double3* light_source, double3 *camera_origin, double3 *pixel){
 
@@ -168,7 +166,7 @@ Plane new_Plane(double x, double y, double z, double nx, double ny, double nz, u
     /*
     PARAMETERS:
 
-    */
+    *//*
 
     Plane plane;
 
@@ -195,3 +193,6 @@ Plane new_Plane(double x, double y, double z, double nx, double ny, double nz, u
 
 };
 
+
+
+*/

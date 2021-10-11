@@ -6,6 +6,7 @@ Primitive Solids
 */
 
 #include <stdint.h>
+#include "../external/cglm/include/cglm/cglm.h"
 
 #include "types.h"
 #include "tracer.h"
@@ -18,14 +19,14 @@ typedef struct RGB{
 
 typedef struct Object{
     RGB color;
-    double (*intersect)(void* , double3*, double3 *, double3 *);
+    float (*intersect)(void* , vec3, vec3, vec3);
 } Object;
 
 
 typedef struct Sphere{
     Object base;
-    double3 center;
-    double radius;
+    vec3 center;
+    float radius;
 } Sphere;
 
 Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_t G, uint8_t B);

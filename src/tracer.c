@@ -26,14 +26,14 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
     
     */
 
-	struct Camera camera;
+	Camera camera;
 
     camera.screen.Nx = Nx;
     camera.screen.Ny = Ny;
 
-	camera.origin.x = 0;
-	camera.origin.y = 0;
-	camera.origin.z = 0;
+	camera.origin[0] = 0;
+	camera.origin[1] = 0;
+	camera.origin[2] = 0;
 
 	camera.screen.start = (Pixel *) malloc(Nx*Ny*sizeof(Pixel));
     camera.screen.end = camera.screen.start + Nx*Ny;
@@ -57,26 +57,26 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
         // determine the pixels direction in this frame 
         // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
 
-        (*pixel).z = camera.d;  // it is now touching the screen
+        (*pixel)[2] = camera.d;  // it is now touching the screen
         
 
         // ok, so: nx and ny are growing, so I should start at the minimum possible value of each coord
         // that be like, (-halfNX*dx, -halfNy*dy)
 
-        (*pixel).x = ((double) (nx - halfNx) )  * camera.screen.dx;           // correct x position
-        (*pixel).y = ((double) (halfNy - ny ) ) * camera.screen.dy;         // correct y position
+        (*pixel)[0] = ((float) (nx - halfNx) )  * camera.screen.dx;           // correct x position
+        (*pixel)[1] = ((float) (halfNy - ny ) ) * camera.screen.dy;         // correct y position
 
 
         // normalizing the pixel
-        double inv_norm = 1/sqrt( pow( (*pixel).x , 2) 
-                                + pow( (*pixel).y , 2)  
-                                + pow( (*pixel).z , 2) 
+        double inv_norm = 1/sqrt( pow( (*pixel)[0] , 2) 
+                                + pow( (*pixel)[1] , 2)  
+                                + pow( (*pixel)[2] , 2) 
                                 );
 
 
-        (*pixel).z *= inv_norm;                    
-        (*pixel).x *= inv_norm;
-        (*pixel).y *= inv_norm;
+        (*pixel)[0] *= inv_norm;                    
+        (*pixel)[1] *= inv_norm;
+        (*pixel)[2] *= inv_norm;
 
         // printf("(%f, ", pixel->x);
         // printf("%f, ", pixel->y); 
@@ -90,22 +90,11 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
 };
 
 
-void rotate_camera(Camera *camera, double theta){
-
-    Pixel *pixel   = camera->screen.start;
 
 
-    do{
-        vec3s direction = *pixel;
-        // direction[0] = pixel->x;
-        // direction[1] = pixel->y;
-        // direction[2] = pixel->z;
-        
+void rotate_camera(Camera *camera, double theta, vec3 *axis){
 
-
-
-
-    } while (pixel != camera->screen.end);
+    return; 
 
 
 };
@@ -125,11 +114,11 @@ void render(Camera *camera, SDL_Surface *surface, Sphere *sphere, Plane *plane)
 
 
 
-    double3 light_source;
+    vec3 light_source;
 
-    light_source.x = 0;
-    light_source.y =  0.25;
-    light_source.z =  15;
+    light_source[0] = 0;
+    light_source[1] =  0.25;
+    light_source[2] =  15;
 
 
 
@@ -137,13 +126,13 @@ void render(Camera *camera, SDL_Surface *surface, Sphere *sphere, Plane *plane)
     do{
 
         
-        double intensity =  sphere->base.intersect((void*)sphere, &light_source, &(camera->origin), pixel);  // this should take into account shadows and stuff
-        double intensity0 =  plane->base.intersect((void*)plane, &light_source, &(camera->origin),  pixel);  // this should take into account shadows and stuff
+        double intensity =  sphere->base.intersect((void*)sphere, light_source, camera->origin, *pixel);  // this should take into account shadows and stuff
+        // double intensity0 =  plane->base.intersect((void*)plane, &light_source, &(camera->origin),  pixel);  // this should take into account shadows and stuff
     
 
         // R
         *window_pixel = intensity*sphere->base.color.R; // intensity is a fraction, the color val is the standard 0 to 255
-        *window_pixel += 255*intensity0;
+        //*window_pixel += 255*intensity0;
         ++window_pixel;
 
         // G

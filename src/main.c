@@ -78,10 +78,19 @@ int main( int argc, char **argv )
                                0, 255, 255   // sphere color
                                );
 
-    Plane plane = new_Plane(0, -1, 0,
-                            0, 1, 0,
-                            255, 255, 255); 
+    Plane plane; // = new_Plane(0, -1, 0,
+                   //         0, 1, 0,
+                     //       255, 255, 255); 
 
+
+
+    vec3 AXIS_OF_ROTATION;
+
+
+
+    AXIS_OF_ROTATION[0] = 0;
+    AXIS_OF_ROTATION[1] = 0;
+    AXIS_OF_ROTATION[2] = 1; 
 
     /************************************************
      *  STARTING THE EVENT LOOP 
@@ -141,8 +150,8 @@ int main( int argc, char **argv )
                         SDL_GetMouseState(&mouse_positionf.x, &mouse_positionf.y);
 
 
-                        sphere.center.x += (double) (mouse_positionf.x - mouse_position0.x)/50;
-                        sphere.center.y -= (double) (mouse_positionf.y - mouse_position0.y)/50;
+                        sphere.center[0] += (float) (mouse_positionf.x - mouse_position0.x)/50;
+                        sphere.center[1] -= (float) (mouse_positionf.y - mouse_position0.y)/50;
 
 
                         mouse_position0 = mouse_positionf;
@@ -156,6 +165,7 @@ int main( int argc, char **argv )
                         double dx = (double) (mouse_positionf.x - mouse_position0.x)/50;
                         double dy = (double) (mouse_positionf.y - mouse_position0.y)/50;
 
+                        rotate_camera(&camera, 0 , &AXIS_OF_ROTATION); 
 
                         mouse_position0 = mouse_positionf;
                     };
@@ -175,31 +185,31 @@ int main( int argc, char **argv )
 
                         // CONTROLLING CAMERA (FPS LIKE)
                         case SDLK_w:
-                            camera.origin.z += 0.1;
+                            camera.origin[2] += 0.1;
                             break;
                         case SDLK_s:
-                            camera.origin.z -= 0.1;
+                            camera.origin[2] -= 0.1;
                             break;
                         case SDLK_a:
-                            camera.origin.x += 0.1;
+                            camera.origin[0] += 0.1;
                             break;
                         case SDLK_d:
-                            camera.origin.x -= 0.1;
+                            camera.origin[0] -= 0.1;
                             break;
 
 
                         // CONTROL A SPHERE 
                         case SDLK_UP:
-                            sphere.center.z += 0.1;
+                            sphere.center[2] += 0.1;
                             break;
                         case SDLK_DOWN:
-                            sphere.center.z -= 0.1;
+                            sphere.center[2] -= 0.1;
                             break;
                         case SDLK_LEFT:
-                            sphere.center.x -= 0.1;
+                            sphere.center[0] -= 0.1;
                             break;
                         case SDLK_RIGHT:
-                            sphere.center.x += 0.1;
+                            sphere.center[0] += 0.1;
                             break;
 
 

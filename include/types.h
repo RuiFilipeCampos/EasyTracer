@@ -9,6 +9,14 @@ typedef struct double3{
 } double3;
 
 
+typedef struct float3{
+	float x;
+	float y;
+	float z;
+} float3;
+
+float3 float3_cast(double3 d3); 
+
 double dot_product(double3 A, double3 B); 
 
 
