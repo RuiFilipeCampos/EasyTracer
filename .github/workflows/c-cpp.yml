@@ -16,7 +16,8 @@ jobs:
     - name: Compiling...
       run: |
         cd EasyTracer # got cd into the project folder
-        g++ -Isrc/include -Lsrc/lib -o EasyTracer_UBUNTU main.c tracer.c primitives.c types.c -l:libSDL2main.a -l:libSDL2.dll.a
+        g++ -Iexternal/src/include -Lexternal/src/lib -o dist/EasyTracer_UBUNTU src/main.c src/tracer.c src/primitives.c src/types.c -l:libSDL2main.a -l:libSDL2.dll.a 
+
     - name: Pushing results...
       run: |
         git config --global user.name 'RuiFilipeCampos'
