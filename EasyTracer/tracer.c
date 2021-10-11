@@ -1,5 +1,7 @@
 
 
+#include "external/cglm/include/cglm/cglm.h"
+#include "external/cglm/include/cglm/struct.h"
 
 #include "tracer.h"
 #include "primitives.h"
@@ -88,7 +90,25 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
 };
 
 
+void rotate_camera(Camera *camera, double theta){
 
+    Pixel *pixel   = camera->screen.start;
+
+
+    do{
+        vec3s direction = *pixel;
+        // direction[0] = pixel->x;
+        // direction[1] = pixel->y;
+        // direction[2] = pixel->z;
+        
+
+
+
+
+    } while (pixel != camera->screen.end);
+
+
+};
 
 
 // gotta recall what is this buffer stuff

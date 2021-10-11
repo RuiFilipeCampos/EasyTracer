@@ -9,7 +9,7 @@
 
 
 
-#include "cglm/include/cglm/cglm.h"
+#include "external/cglm/include/cglm/cglm.h"
 
 
 struct WindowHeader{
