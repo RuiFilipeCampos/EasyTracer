@@ -3,13 +3,13 @@
 
 #include <stdbool.h>
 
-#include "tracer.h"
-#include "types.h"
+#include "../include/tracer.h"
+#include "../include/types.h"
 
 
 
 
-#include "external/cglm/include/cglm/cglm.h"
+#include "../external/cglm/include/cglm/cglm.h"
 
 
 struct WindowHeader{

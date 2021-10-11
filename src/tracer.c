@@ -1,10 +1,10 @@
 
 
-#include "external/cglm/include/cglm/cglm.h"
-#include "external/cglm/include/cglm/struct.h"
+#include "../external/cglm/include/cglm/cglm.h"
+#include "../external/cglm/include/cglm/struct.h"
 
-#include "tracer.h"
-#include "primitives.h"
+#include "../include/tracer.h"
+#include "../include/primitives.h"
 
 
 #include <stdlib.h>

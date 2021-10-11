@@ -1,7 +1,7 @@
 
-#include "primitives.h"
-#include "types.h"
-#include "tracer.h"
+#include "../include/primitives.h"
+#include "../include/types.h"
+#include "../include/tracer.h"
 
 
 

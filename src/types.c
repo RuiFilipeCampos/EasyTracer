@@ -1,5 +1,5 @@
 
-#include "types.h"
+#include "../include/types.h"
 
 double dot_product(double3 A, double3 B){ 
     return A.x*B.x + A.y*B.y + A.z*B.z;
