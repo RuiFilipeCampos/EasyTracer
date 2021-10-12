@@ -29,11 +29,8 @@ Plan:
 A `Pixel` is defined as a unit vector located at some position,
 
 ```C
-typedef struct double3{
-    double x, y, z;
-}double3;
-
-typedef double3 Pixel;
+typedef float vec3[3] // comming from the cglm lib
+typedef vec3 Pixel;
 ```
 
 The position is not included in the codes definition of `Pixel` because that quantity will later be implicitly defined by the `Camera`'s parameters.
@@ -60,7 +57,7 @@ The `Camera` is a struct storing the origin of the rays, the shortest distance b
 ```C
 struct Camera{
 	double d;
-	double3 origin;
+	vec3 origin;
 	Screen screen;
 };
 ```
@@ -85,7 +82,7 @@ to do:
 #### Isotropic Point Light Source
 
 ```
-typedef double3 LightSource;
+typedef vec3 LightSource;
 ```
 
 This source is entirely defined by its position in space. When the intersection point is calculated, the dot product between the surface normal and the unit vector pointing towards the source defines the intensity with which to color the pixel.
@@ -102,3 +99,5 @@ Quaternions are obligatory I think. Cuz of their continuous rotation thing (chai
 - [ ] how to efficiently rotate thousands of unit vectors continuously ? :C
     - [ ] Can I use [SIMD](https://en.wikipedia.org/wiki/SIMD) stuff for this? 
     - [ ] https://en.wikipedia.org/wiki/OpenGL
+
+I am now using the GPU (it's simple using the cglm lib), but I've found that rotating thousands of vectors per second is pretty much impossible, gonna look into just recreating them. 
