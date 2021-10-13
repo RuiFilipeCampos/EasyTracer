@@ -20,7 +20,7 @@ Plan:
 - able to drag sphere via left mouse click + dragg
 
 
-[![EasyTracer](https://yt-embed.herokuapp.com/embed?v=I-EB3uxExtc)](https://www.youtube.com/watch?v=I-EB3uxExtc "EasyTracer ")
+[![EasyTracer](https://yt-embed.herokuapp.com/embed?v=1Ldps3fPdyo)](https://www.youtube.com/watch?v=1Ldps3fPdyo "EasyTracer ")
 
 
 
