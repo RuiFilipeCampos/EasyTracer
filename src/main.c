@@ -78,12 +78,28 @@ int main( int argc, char **argv )
                                0, 255, 255   // sphere color
                                );
 
+    sphere.base.self = (void *) &sphere;
+
+
+    Scene scene;
+    scene.object = &(sphere.base);
+
+    
     Plane plane = new_Plane(0, -1, 0,
                            0, 1, 0,
                          255, 255, 255);
+    plane.base.self = (void *) &plane;
 
 
-    Object *OBJECTS = (Object *) malloc(2*sizeof(Object));
+    Scene plane_node;
+    scene.next = &plane_node;
+    plane_node.object = &plane.base;
+
+    scene.next = &plane_node; 
+    plane_node.next = NULL; 
+
+
+
 
 
 
@@ -104,7 +120,7 @@ int main( int argc, char **argv )
 
     bool keep_open = true;
 
-    render(&camera, window_surface, &sphere, &plane);
+    render(&camera, window_surface, &scene);
     SDL_UpdateWindowSurface(window);
 
 
@@ -157,7 +173,7 @@ int main( int argc, char **argv )
 
 
                         mouse_position0 = mouse_positionf;
-                        render(&camera, window_surface, &sphere, &plane);
+                        render(&camera, window_surface, &scene);
                         SDL_UpdateWindowSurface(window);
                         
                     } else if (rotating) {
@@ -189,7 +205,7 @@ int main( int argc, char **argv )
 
                         mouse_position0 = mouse_positionf;
 
-                        render(&camera, window_surface, &sphere, &plane);
+                        render(&camera, window_surface, &scene);
                         SDL_UpdateWindowSurface(window);
                     };
                     break;
@@ -247,7 +263,7 @@ int main( int argc, char **argv )
                         default:
                             break;
                     }
-                    render(&camera, window_surface, &sphere, &plane);
+                    render(&camera, window_surface, &scene);
                     SDL_UpdateWindowSurface(window);
                     break; 
 
@@ -258,7 +274,7 @@ int main( int argc, char **argv )
                 
                 
                 default:
-                    render(&camera, window_surface, &sphere, &plane);
+                    render(&camera, window_surface, &scene);
                     SDL_UpdateWindowSurface(window);
                     break; 
             };

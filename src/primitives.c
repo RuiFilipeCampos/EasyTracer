@@ -46,16 +46,19 @@ float intersect_sphere(void *self, vec3 light_source, vec3 camera_origin, vec3 p
     float delta = b*b - 4*c;
 
     if (delta >= 0){
-
-        // printf("Intersected \n");
-
-
         double t1 = (-b - sqrt(delta))/2;
-        // printf("dist = %f; ", t1); 
+        if (t1 > 0){ return t1;};
+    };
 
-        if (t1 > 0){
+    return INFINITY; 
 
-            // where is the nearest intersection ? 
+
+};
+
+
+float get_intensity_sphere(void * self, vec3 light_source, vec3 camera_origin, vec3 pixel, float t1){
+            Sphere *sphere = (Sphere *) self;
+
             vec3 intersection_point;
             glm_vec3_scale(pixel, t1, intersection_point);
             glm_vec3_add(intersection_point, camera_origin, intersection_point); 
@@ -79,13 +82,9 @@ float intersect_sphere(void *self, vec3 light_source, vec3 camera_origin, vec3 p
     
             return intensity/glm_vec3_distance2(intersection_point, light_source);
 
-        };
-    };
-
-    return 0; 
-
-
 };
+
+
 
 // Soil 
 
@@ -100,21 +99,32 @@ Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_
         double radius: radius of sphere in cm
     */
 
+
+    // INITIALIZING OBJECT
     Sphere sphere;
 
-    // geometric parameters
+    // METHODS
+    sphere.base.intersect = &intersect_sphere;
+    sphere.base.get_intensity = &get_intensity_sphere;
+
+
+    // BASE ATTRIBUTES
+    sphere.base.color.R = R;
+    sphere.base.color.G = G;
+    sphere.base.color.B = B;
+
+    // SUBCLASS ATTRIBUTES
     sphere.center[0] = x;
     sphere.center[1] = y;
     sphere.center[2] = z;
     sphere.radius = radius;
 
-    sphere.base.color.R = R;
-    sphere.base.color.G = G;
-    sphere.base.color.B = B; 
+
+
+
 
     // base stuff
 
-    sphere.base.intersect = &intersect_sphere;
     return sphere; 
 
 
@@ -130,7 +140,7 @@ float intersect_plane(void *self, vec3 light_source, vec3 camera_origin, vec3 pi
     Plane *plane = (Plane*) self;
 
     float ln = glm_vec3_dot(plane->direction, pixel);
-    if (ln == 0){return 0; }
+    if (ln == 0){return INFINITY; }
 
 
     vec3 result;
@@ -144,10 +154,20 @@ float intersect_plane(void *self, vec3 light_source, vec3 camera_origin, vec3 pi
     ) / ln;
 */
 
-    if (t0 < 0){return 0;};
+    if (t0 < 0){return INFINITY;};
+
+    return t0;
 
 
     
+
+
+
+}; 
+
+float get_intensity_plane(void * self, vec3 light_source, vec3 camera_origin, vec3 pixel, float t0){
+    Plane *plane = (Plane*) self;
+
     // where is the nearest intersection ? 
     vec3 intersection_point;
     glm_vec3_scale(pixel, t0, intersection_point);
@@ -171,12 +191,9 @@ float intersect_plane(void *self, vec3 light_source, vec3 camera_origin, vec3 pi
     // normalize(&intersection_source);
 
 
-    return glm_vec3_dot(intersection_source, plane->direction); 
+    return glm_vec3_dot(intersection_source, plane->direction);
 
-
-}; 
-
-
+};
 
 
 Plane new_Plane(double x, double y, double z, double nx, double ny, double nz, uint8_t R, uint8_t G, uint8_t B){
@@ -204,6 +221,7 @@ Plane new_Plane(double x, double y, double z, double nx, double ny, double nz, u
     // base stuff
 
     plane.base.intersect = &intersect_plane;
+    plane.base.get_intensity = &get_intensity_plane; 
     return plane; 
 
 

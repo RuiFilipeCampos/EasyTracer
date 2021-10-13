@@ -114,154 +114,127 @@ void rotate_camera(Camera *camera, double theta, vec3 *axis){
 
 
 // gotta recall what is this buffer stuff
-void render(Camera *camera, SDL_Surface *surface, Sphere *sphere, Plane *plane)
+void render(Camera *camera, SDL_Surface *surface, Scene *scene)
 {
     // let's do a sphere located at z = 5 with radius of 1
 
                             
     // Pixel *pixel   = camera->screen.start;
     SDL_LockSurface(surface);
-
     uint8_t *window_pixel = (uint8_t *) surface->pixels;
 
 
-
-
     vec3 light_source;
-
     light_source[0] = 0;
     light_source[1] =  0.25;
     light_source[2] =  15;
 
-
-
-
-
     vec3 pixel;
+
+
 
     // CAREFUL WITH THIS
     for (int ny = 0; ny < camera->screen.Ny; ++ny){
         for (int nx = 0; nx < camera->screen.Nx; ++nx){
-    
-        // determine the pixels direction in this frame 
-        // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
+                
+                    // CONSTRUCTING THE PIXEL 
+
+                   
+                    glm_vec3_scale(camera->direction, camera->d, pixel); 
+                    glm_vec3_add(camera->origin, pixel, pixel); // it is now touching the screen
+                    float up_scalar_displacement = ((float) (ny - camera->halfNy  ) ) * camera->screen.dy;  
+                    vec3 displacement; 
+                    glm_vec3_scale(camera->up, up_scalar_displacement, displacement);
+                    glm_vec3_add(pixel, displacement, pixel);
+                    float right_scalar_displacement = ((float) (nx - camera->halfNx) )  * camera->screen.dx; 
+                    glm_vec3_scale(camera->right, right_scalar_displacement, displacement);
+                    glm_vec3_add(pixel, displacement, pixel);
+                    glm_vec3_normalize(pixel);
 
 
+                    // SHOOTING RAY
 
-        // camera->origin + camera->direction * camera->d
+            
 
-    
-        glm_vec3_scale(camera->direction, camera->d, pixel); 
-        glm_vec3_add(camera->origin, pixel, pixel); // it is now touching the screen
-
-
-        float up_scalar_displacement = ((float) (ny - camera->halfNy  ) ) * camera->screen.dy;  
-
-        vec3 displacement; 
-        glm_vec3_scale(camera->up, up_scalar_displacement, displacement);
-        glm_vec3_add(pixel, displacement, pixel);
+                    Scene *current_node = scene;
+                    Object *closest = current_node->object;
 
 
-        float right_scalar_displacement = ((float) (nx - camera->halfNx) )  * camera->screen.dx; 
+                    float t0 = current_node->object->intersect(   current_node->object->self,  
+                                                                light_source, 
+                                                                camera->origin, 
+                                                                pixel
+                                                                );
+                    float new_t0; 
 
-        glm_vec3_scale(camera->right, right_scalar_displacement, displacement);
-        glm_vec3_add(pixel, displacement, pixel);
+                    while (current_node != NULL){
+                        
+                        new_t0 = current_node->object->intersect( current_node->object->self,  
+                                                                light_source, 
+                                                                camera->origin, 
+                                                                pixel
+                                                                );
 
-        
+                        if (new_t0 < t0){
+                            closest = current_node->object;
+                            t0 = new_t0;
+                        };
+                        current_node = current_node->next;
+                    };
+                    
 
-/*
+                    float intensity; 
 
-        pixel[2] = camera->d;  // it is now touching the screen
-        
+                    if (t0 == INFINITY){
+                        intensity = 0;
+                    } else {
 
-        // ok, so: nx and ny are growing, so I should start at the minimum possible value of each coord
-        // that be like, (-halfNX*dx, -halfNy*dy)
+                      intensity =  closest->get_intensity(closest->self, light_source, camera->origin, pixel, t0); 
 
-        pixel[0] = ((float) (nx - camera->halfNx) )  * camera->screen.dx;           // correct x position
-        pixel[1] = ((float) (camera->halfNy - ny ) ) * camera->screen.dy;         // correct y position
-*/
-        glm_vec3_normalize(pixel);
-
-        // normalizing the pixel
-        
-
-        // printf("(%f, ", pixel->x);
-        // printf("%f, ", pixel->y); 
-        // printf("%f) \n", pixel->z); 
-
-
-        double intensity =  sphere->base.intersect((void*)sphere, light_source, camera->origin, pixel);  // this should take into account shadows and stuff
-        double plane_intensity =  plane->base.intersect((void*)plane, light_source, camera->origin, pixel);  // this should take into account shadows and stuff
-
-        if (intensity > 1){
-
-        // R
-        *window_pixel = 255; // intensity is a fraction, the color val is the standard 0 to 255
-        //*window_pixel += 255*intensity0;
-        ++window_pixel;
-
-        // G
-        *window_pixel = 255;
-        ++window_pixel;
-
-        // B
-        *window_pixel = 255;
-                 
-
-        ++window_pixel;
-
-        // alpha ??  --- not sure what this is
-        // *window_pixel = 0;
-        ++window_pixel;
-        continue; 
-        } else if (intensity > 0){
-
-        // R
-        *window_pixel = intensity*sphere->base.color.R; // intensity is a fraction, the color val is the standard 0 to 255
-        //*window_pixel += 255*intensity0;
-        ++window_pixel;
-
-        // G
-        *window_pixel = intensity*sphere->base.color.G;
-        ++window_pixel;
-
-        // B
-        *window_pixel = intensity*sphere->base.color.B;
-                 
-
-        ++window_pixel;
-
-        // alpha ??  --- not sure what this is
-        // *window_pixel = 0;
-        ++window_pixel;
-
-        } else {
-
-        // R
-        *window_pixel = plane_intensity*plane->base.color.R; // intensity is a fraction, the color val is the standard 0 to 255
-        //*window_pixel += 255*intensity0;
-        ++window_pixel;
-
-        // G
-        *window_pixel = plane_intensity*plane->base.color.G;
-        ++window_pixel;
-
-        // B
-        *window_pixel = plane_intensity*plane->base.color.B;
-                 
-
-        ++window_pixel;
-
-        // alpha ??  --- not sure what this is
-        // *window_pixel = 0;
-        ++window_pixel;
-
-        };
+                    };
 
 
+                    if (intensity > 1){
+
+                        // R
+                        *window_pixel = 255; // intensity is a fraction, the color val is the standard 0 to 255
+                        ++window_pixel;
+
+                        // G
+                        *window_pixel = 255;
+                        ++window_pixel;
+
+                        // B
+                        *window_pixel = 255;
+                                
+
+                        ++window_pixel;
+
+                        // alpha ??  --- not sure what this is
+                        // *window_pixel = 0;
+                        ++window_pixel;
+                        continue;
+                    }; 
 
 
+                    // R
+                    *window_pixel = intensity*closest->color.R; // intensity is a fraction, the color val is the standard 0 to 255
+                    //*window_pixel += 255*intensity0;
+                    ++window_pixel;
 
+                    // G
+                    *window_pixel = intensity*closest->color.G;
+                    ++window_pixel;
+
+                    // B
+                    *window_pixel = intensity*closest->color.B;
+                            
+
+                    ++window_pixel;
+
+                    // alpha ??  --- not sure what this is
+                    // *window_pixel = 0;
+                    ++window_pixel;
 
 
 

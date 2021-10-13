@@ -7,7 +7,7 @@
 #include "types.h"
 #include "../external/cglm/include/cglm/cglm.h"
 
-
+struct Object; 
 struct Sphere; 
 struct Plane;
 
@@ -35,8 +35,15 @@ typedef struct Camera{
 } Camera;
 
 
+
+typedef struct Scene{
+	Object* object;
+	Scene* next;
+}Scene;
+
+
 Camera create_simple_camera(double X, double Y, int Nx, int Ny); 
-void render(Camera *camera, SDL_Surface *surface, Sphere* sphere, Plane *plane);
+void render(Camera *camera, SDL_Surface *surface, Scene *scene);
 void rotate_camera(Camera *camera, double theta, vec3 *axis);
 
 
