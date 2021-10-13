@@ -27,6 +27,10 @@ typedef struct Screen{
 typedef struct Camera{
 	float d;         // closest distance from origin to screen
 	vec3 origin;   // origin of rays
+	vec3 direction; //camera direction
+	vec3 up;
+	vec3 right;
+	int halfNx, halfNy; 
 	Screen screen;    // the array of detectors (Pixel)
 } Camera;
 

@@ -78,9 +78,9 @@ int main( int argc, char **argv )
                                0, 255, 255   // sphere color
                                );
 
-    Plane plane; // = new_Plane(0, -1, 0,
-                   //         0, 1, 0,
-                     //       255, 255, 255);
+    Plane plane = new_Plane(0, -1, 0,
+                           0, 1, 0,
+                         255, 255, 255);
 
 
     Object *OBJECTS = (Object *) malloc(2*sizeof(Object));
@@ -150,9 +150,8 @@ int main( int argc, char **argv )
 
                 case SDL_MOUSEMOTION:
                     if (dragging){
+
                         SDL_GetMouseState(&mouse_positionf.x, &mouse_positionf.y);
-
-
                         sphere.center[0] += (float) (mouse_positionf.x - mouse_position0.x)/50;
                         sphere.center[1] -= (float) (mouse_positionf.y - mouse_position0.y)/50;
 
@@ -165,12 +164,33 @@ int main( int argc, char **argv )
                         SDL_GetMouseState(&mouse_positionf.x, &mouse_positionf.y);
 
 
-                        double dx = (double) (mouse_positionf.x - mouse_position0.x)/50;
-                        double dy = (double) (mouse_positionf.y - mouse_position0.y)/50;
+                        float dx = (double) (mouse_positionf.x - mouse_position0.x)/1000;
 
-                        rotate_camera(&camera, 0 , &AXIS_OF_ROTATION); 
+                        glm_vec3_rotate(camera.direction, -dx, camera.up);
+                        glm_vec3_rotate(camera.right, -dx, camera.up);
+                        
+
+
+
+
+
+
+
+                        float dy = (double) (mouse_positionf.y - mouse_position0.y)/1000;
+                        glm_vec3_rotate(camera.direction, dy, camera.right);
+                        glm_vec3_rotate(camera.up, dy, camera.right);
+
+
+                        // glm_vec3_rotate(camera.direction, 0.1, camera.direction);
+                        // glm_vec3_rotate(camera.up, 0.1, camera.direction);
+                        // glm_vec3_rotate(camera.right, 0.1, camera.direction);
+
+                        // rotate_camera(&camera, 0 , &AXIS_OF_ROTATION); 
 
                         mouse_position0 = mouse_positionf;
+
+                        render(&camera, window_surface, &sphere, &plane);
+                        SDL_UpdateWindowSurface(window);
                     };
                     break;
 
@@ -185,19 +205,25 @@ int main( int argc, char **argv )
 
                     switch (event.key.keysym.sym)
                     {
+                        vec3 displacement; 
 
                         // CONTROLLING CAMERA (FPS LIKE)
                         case SDLK_w:
-                            camera.origin[2] += 0.1;
+                            glm_vec3_scale(camera.direction, 0.1, displacement);
+                            glm_vec3_add(camera.origin, displacement, camera.origin);
+                            //camera.origin[2] += 0.1;
                             break;
                         case SDLK_s:
-                            camera.origin[2] -= 0.1;
+                            glm_vec3_scale(camera.direction, -0.1, displacement);
+                            glm_vec3_add(camera.origin, displacement, camera.origin);
                             break;
                         case SDLK_a:
-                            camera.origin[0] += 0.1;
+                            glm_vec3_scale(camera.right, -0.1, displacement);
+                            glm_vec3_add(camera.origin, displacement, camera.origin);
                             break;
                         case SDLK_d:
-                            camera.origin[0] -= 0.1;
+                            glm_vec3_scale(camera.right, 0.1, displacement);
+                            glm_vec3_add(camera.origin, displacement, camera.origin);
                             break;
 
 

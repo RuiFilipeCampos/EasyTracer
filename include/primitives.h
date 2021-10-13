@@ -34,8 +34,8 @@ Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_
 
 typedef struct Plane{
     Object base;
-    double3 position;
-    double3 direction;
+    vec3 position;
+    vec3 direction;
 } Plane;
 
 

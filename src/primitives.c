@@ -75,10 +75,8 @@ float intersect_sphere(void *self, vec3 light_source, vec3 camera_origin, vec3 p
 
             float intensity = glm_vec3_dot(center_intersection, intersection_source); 
             
-            if (intensity <= 0){ return 0.03; };
-
-            
-
+            if (intensity <= 0){ return 0.01; };
+    
             return intensity/glm_vec3_distance2(intersection_point, light_source);
 
         };
@@ -88,6 +86,8 @@ float intersect_sphere(void *self, vec3 light_source, vec3 camera_origin, vec3 p
 
 
 };
+
+// Soil 
 
 Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_t G, uint8_t B){
     /*
@@ -123,38 +123,55 @@ Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_
 
 
 
-/*
 
-double intersect_plane(void *self, double3* light_source, double3 *camera_origin, double3 *pixel){
+
+float intersect_plane(void *self, vec3 light_source, vec3 camera_origin, vec3 pixel){
 
     Plane *plane = (Plane*) self;
 
-    double ln = dot_product(plane->direction, *pixel);
+    float ln = glm_vec3_dot(plane->direction, pixel);
     if (ln == 0){return 0; }
 
-    double t0 = dot_product(
+
+    vec3 result;
+    glm_vec3_sub(plane->position, light_source, result);
+    double t0 = glm_vec3_dot(result, plane->direction) / ln;
+    
+    
+    /*double t0 = dot_product(
         subtract_vectors(plane->position, *light_source),
         plane->direction
     ) / ln;
-
+*/
 
     if (t0 < 0){return 0;};
 
+
+    
     // where is the nearest intersection ? 
-    double3 intersection_point;
+    vec3 intersection_point;
+    glm_vec3_scale(pixel, t0, intersection_point);
+    glm_vec3_add(intersection_point, camera_origin, intersection_point);
+
+    /*
     intersection_point.x = camera_origin->x + t0*pixel->x;
     intersection_point.y = camera_origin->y + t0*pixel->y;
     intersection_point.z = camera_origin->z + t0*pixel->z;
+    */
 
     // from intersection to source
-    double3 intersection_source;
+    vec3 intersection_source;
+    glm_vec3_sub(light_source, intersection_point, intersection_source); 
+    /*
     intersection_source.x = light_source->x - intersection_point.x;
     intersection_source.y = light_source->y - intersection_point.y;
-    intersection_source.z = light_source->z - intersection_point.z;
-    normalize(&intersection_source);
+    intersection_source.z = light_source->z - intersection_point.z;*/
+
+    glm_vec3_normalize(intersection_source);
+    // normalize(&intersection_source);
 
 
-    return dot_product(intersection_source, plane->direction); 
+    return glm_vec3_dot(intersection_source, plane->direction); 
 
 
 }; 
@@ -166,18 +183,18 @@ Plane new_Plane(double x, double y, double z, double nx, double ny, double nz, u
     /*
     PARAMETERS:
 
-    *//*
+    */
 
     Plane plane;
 
     // geometric parameters
-    plane.position.x = x;
-    plane.position.y = y;
-    plane.position.z = z;
+    plane.position[0] = x;
+    plane.position[1] = y;
+    plane.position[2] = z;
 
-    plane.direction.x = nx;
-    plane.direction.y = ny;
-    plane.direction.z = nz;
+    plane.direction[0] = nx;
+    plane.direction[1] = ny;
+    plane.direction[2] = nz;
 
     // color
     plane.base.color.R = R;
@@ -194,5 +211,3 @@ Plane new_Plane(double x, double y, double z, double nx, double ny, double nz, u
 };
 
 
-
-*/
