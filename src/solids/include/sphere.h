@@ -1,8 +1,7 @@
 
 
 
-#include "../../../external/cglm/include/cglm/cglm.h"
-#include "object.h"
+#include "./object.h"
 
 
 typedef struct Sphere{

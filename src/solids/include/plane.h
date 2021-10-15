@@ -3,7 +3,6 @@
 #ifndef _PLANEH_
 #define _PLANEH_
 
-#include "../../../external/cglm/include/cglm/cglm.h"
 #include "./object.h"
 
 

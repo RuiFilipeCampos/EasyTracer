@@ -2,6 +2,7 @@
 #ifndef _OBJECTH_
 #define _OBJECTH_
 
+#include "../../../external/cglm/include/cglm/cglm.h"
 
 
 typedef struct RGB{
