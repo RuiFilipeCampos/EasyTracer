@@ -66,6 +66,13 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
 
 
 
+
+
+
+
+
+
+
                     // SHOOTING RAY
 
                     // Find out which solid gets intersected first, if any !
@@ -92,11 +99,11 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
 
                         ++current; 
 
-                    }while(current != tot);
+                    } while(current != tot);
 
 
                     if (dist == INFINITY){
-                        
+
                         *window_pixel = 10; // intensity is a fraction, the color val is the standard 0 to 255
                         ++window_pixel;
 
@@ -114,10 +121,8 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
                         // *window_pixel = 0;
                         ++window_pixel;
                         continue;
-
                     };
 
-                    Solid * object = scene->solids[closest];
 
 
 
@@ -131,70 +136,16 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
 
 
 
+                    Solid *solid = scene->solids[closest];
 
+                    float intensity = solid->get_intensity(
+                        solid->self,
+                        camera->origin,
+                        pixel,
+                        dist,
+                        scene->light_sources
+                    );
 
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
-                    Scene *current_node = scene;
-                    Object *closest = current_node->object;
-
-
-
-                    float new_t0; 
-
-                    while (current_node != NULL){
-                        
-                        new_t0 = current_node->object->intersect( current_node->object->self,  
-                                                                light_source, 
-                                                                camera->origin, 
-                                                                pixel
-                                                                );
-
-                        if (new_t0 < t0){
-                            closest = current_node->object;
-                            t0 = new_t0;
-                        };
-                        current_node = current_node->next;
-                    };
-                    
-
-                    float intensity; 
-
-                    if (t0 == INFINITY){
-                        *window_pixel = 10; // intensity is a fraction, the color val is the standard 0 to 255
-                        ++window_pixel;
-
-                        // G
-                        *window_pixel = 10;
-                        ++window_pixel;
-
-                        // B
-                        *window_pixel = 10;
-                                
-
-                        ++window_pixel;
-
-                        // alpha ??  --- not sure what this is
-                        // *window_pixel = 0;
-                        ++window_pixel;
-                        continue;
-                    } else {
-
-                      intensity =  closest->get_intensity(closest->self, light_source, camera->origin, pixel, t0); 
-
-                    };
 
 
                     if (intensity > 1){
@@ -209,8 +160,6 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
 
                         // B
                         *window_pixel = 255;
-                                
-
                         ++window_pixel;
 
                         // alpha ??  --- not sure what this is
@@ -219,24 +168,23 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
                         continue;
                     }; 
 
+
                     // R
-                    *window_pixel = intensity*closest->color.R; // intensity is a fraction, the color val is the standard 0 to 255
-                    //*window_pixel += 255*intensity0;
+                    *window_pixel = intensity*solid->RED; // intensity is a fraction, the color val is the standard 0 to 255
                     ++window_pixel;
 
                     // G
-                    *window_pixel = intensity*closest->color.G;
+                    *window_pixel = intensity*solid->GREEN;
                     ++window_pixel;
 
                     // B
-                    *window_pixel = intensity*closest->color.B;
-                            
-
+                    *window_pixel = intensity*solid->BLUE;
                     ++window_pixel;
 
                     // alpha ??  --- not sure what this is
                     // *window_pixel = 0;
                     ++window_pixel;
+
 
 
 
