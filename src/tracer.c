@@ -1,5 +1,3 @@
-
-
 #include "../external/cglm/include/cglm/cglm.h"
 #include "../external/cglm/include/cglm/struct.h"
 
@@ -57,48 +55,6 @@ Camera create_simple_camera(double X, double Y, int Nx, int Ny){
 
     camera.halfNx = Nx/2;
     camera.halfNy = Ny/2;
-
-
-    // should be the fastest way to iterate it
-    
-    
-/*Pixel *pixel = camera.screen.start;
-    // CAREFUL WITH THIS
-    for (int ny = 0; ny < Ny; ++ny){
-        for (int nx = 0; nx < Nx; ++nx){
-    
-        // determine the pixels direction in this frame 
-        // kinda confusing, but im modelling pixels as the direction of the rays that emanate from them
-
-        (*pixel)[2] = camera.d;  // it is now touching the screen
-        
-
-        // ok, so: nx and ny are growing, so I should start at the minimum possible value of each coord
-        // that be like, (-halfNX*dx, -halfNy*dy)
-
-        (*pixel)[0] = ((float) (nx - camera.halfNx) )  * camera.screen.dx;           // correct x position
-        (*pixel)[1] = ((float) (camera.halfNy - ny ) ) * camera.screen.dy;         // correct y position
-
-
-        // normalizing the pixel
-        double inv_norm = 1/sqrt( pow( (*pixel)[0] , 2) 
-                                + pow( (*pixel)[1] , 2)  
-                                + pow( (*pixel)[2] , 2) 
-                                );
-
-
-        (*pixel)[0] *= inv_norm;                    
-        (*pixel)[1] *= inv_norm;
-        (*pixel)[2] *= inv_norm;
-
-        // printf("(%f, ", pixel->x);
-        // printf("%f, ", pixel->y); 
-        // printf("%f) \n", pixel->z); 
-
-        ++pixel;
-        };
-    };
-*/
     return camera;
 };
 
@@ -138,8 +94,6 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
         for (int nx = 0; nx < camera->screen.Nx; ++nx){
                 
                     // CONSTRUCTING THE PIXEL 
-
-                   
                     glm_vec3_scale(camera->direction, camera->d, pixel); 
                     glm_vec3_add(camera->origin, pixel, pixel); // it is now touching the screen
                     float up_scalar_displacement = ((float) (ny - camera->halfNy  ) ) * camera->screen.dy;  
@@ -186,7 +140,23 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
                     float intensity; 
 
                     if (t0 == INFINITY){
-                        intensity = 0;
+                        *window_pixel = 10; // intensity is a fraction, the color val is the standard 0 to 255
+                        ++window_pixel;
+
+                        // G
+                        *window_pixel = 10;
+                        ++window_pixel;
+
+                        // B
+                        *window_pixel = 10;
+                                
+
+                        ++window_pixel;
+
+                        // alpha ??  --- not sure what this is
+                        // *window_pixel = 0;
+                        ++window_pixel;
+                        continue;
                     } else {
 
                       intensity =  closest->get_intensity(closest->self, light_source, camera->origin, pixel, t0); 
@@ -215,7 +185,6 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
                         ++window_pixel;
                         continue;
                     }; 
-
 
                     // R
                     *window_pixel = intensity*closest->color.R; // intensity is a fraction, the color val is the standard 0 to 255

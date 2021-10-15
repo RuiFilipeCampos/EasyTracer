@@ -78,7 +78,7 @@ float get_intensity_sphere(void * self, vec3 light_source, vec3 camera_origin, v
 
             float intensity = glm_vec3_dot(center_intersection, intersection_source); 
             
-            if (intensity <= 0){ return 0.01; };
+            if (intensity <= 0){ return 0.005; };
     
             return intensity/glm_vec3_distance2(intersection_point, light_source);
 
@@ -191,7 +191,7 @@ float get_intensity_plane(void * self, vec3 light_source, vec3 camera_origin, ve
     // normalize(&intersection_source);
 
 
-    return glm_vec3_dot(intersection_source, plane->direction);
+    return glm_vec3_dot(intersection_source, plane->direction)/glm_vec3_distance2(light_source, intersection_point);
 
 };
 
