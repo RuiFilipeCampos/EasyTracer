@@ -3,6 +3,27 @@
 
 
 
+
+void set_pixel_color(uint8_t **window_pixel, uint8_t color){
+
+    // R
+    **window_pixel = color; // intensity is a fraction, the color val is the standard 0 to 255
+    ++*window_pixel;
+
+    // G
+    **window_pixel = color;
+    ++window_pixel;
+
+    // B
+    **window_pixel = color;
+    ++*window_pixel;
+
+    // alpha ??  --- not sure what this is
+    // *window_pixel = 0;
+    ++*window_pixel;
+    
+};
+
 void render(Camera *camera, SDL_Surface *surface, Scene *scene)
 {
     /*
@@ -22,47 +43,45 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
     for (int ny = 0; ny < camera->screen.Ny; ++ny){
         for (int nx = 0; nx < camera->screen.Nx; ++nx){
 
-                    // CONSTRUCTING THE DIRECTION OF THE RAY 
-                    glm_vec3_scale(
-                        camera->direction,
-                        camera->d, 
-                        pixel
-                    ); 
+            // CONSTRUCTING THE DIRECTION OF THE RAY 
+            glm_vec3_scale(
+                camera->direction,
+                camera->d, 
+                pixel
+            ); 
 
-                    glm_vec3_add(
-                        camera->origin, 
-                        pixel, 
-                        pixel
-                    ); // it is now touching the screen
+            glm_vec3_add(
+                camera->origin, 
+                pixel, 
+                pixel
+            ); // it is now touching the screen
 
-                    glm_vec3_scale(
-                        camera->up, 
-                        ((float) (ny - camera->halfNy  ) ) * camera->screen.dy, // up_scalar_displacement
-                        displacement
-                    );
+            glm_vec3_scale(
+                camera->up, 
+                ((float) (ny - camera->halfNy  ) ) * camera->screen.dy, // up_scalar_displacement
+                displacement
+            );
 
-                    glm_vec3_add(
-                        pixel, 
-                        displacement, 
-                        pixel
-                    );
-
-
-                    glm_vec3_scale(
-                        camera->right, 
-                        ((float) (nx - camera->halfNx) )  * camera->screen.dx,  // right_scalar_displacement
-                        displacement
-                    );
-
-                    glm_vec3_add(
-                        pixel, 
-                        displacement, 
-                        pixel
-                    );
-
-                    glm_vec3_normalize(pixel);
+            glm_vec3_add(
+                pixel, 
+                displacement, 
+                pixel
+            );
 
 
+            glm_vec3_scale(
+                camera->right, 
+                ((float) (nx - camera->halfNx) )  * camera->screen.dx,  // right_scalar_displacement
+                displacement
+            );
+
+            glm_vec3_add(
+                pixel, 
+                displacement, 
+                pixel
+            );
+
+            glm_vec3_normalize(pixel);
 
 
 
@@ -71,119 +90,92 @@ void render(Camera *camera, SDL_Surface *surface, Scene *scene)
 
 
 
+            // SHOOTING RAY
+
+            // Find out which solid gets intersected first, if any !
+            int tot = 10;
+            int current = 0;
+            int closest = 0; 
+
+            float dist;
+            float current_dist = INFINITY; 
 
 
-                    // SHOOTING RAY
+            do {
+                dist = scene->solids[current]->intersect(
+                    scene->solids[current]->self,
+                    camera->origin,
+                    pixel
+                );
 
-                    // Find out which solid gets intersected first, if any !
-                    int tot = 10;
-                    int current = 0;
-                    int closest = 0; 
+                if (dist < current_dist){
+                    dist = current_dist;
+                    closest = current;
+                };
 
-                    float dist;
-                    float current_dist = INFINITY; 
+                ++current; 
 
-
-                    do {
-
-                        dist = scene->solids[current]->intersect(
-                            scene->solids[current]->self,
-                            camera->origin,
-                            pixel
-                        );
-
-                        if (dist < current_dist){
-                            dist = current_dist;
-                            closest = current;
-                        };
-
-                        ++current; 
-
-                    } while(current != tot);
+            } while(current != tot);
 
 
-                    if (dist == INFINITY){
-
-                        *window_pixel = 10; // intensity is a fraction, the color val is the standard 0 to 255
-                        ++window_pixel;
-
-                        // G
-                        *window_pixel = 10;
-                        ++window_pixel;
-
-                        // B
-                        *window_pixel = 10;
-                                
-
-                        ++window_pixel;
-
-                        // alpha ??  --- not sure what this is
-                        // *window_pixel = 0;
-                        ++window_pixel;
-                        continue;
-                    };
+            if (dist == INFINITY){
+                set_pixel_color(&window_pixel, 10);
+                continue;
+            };
 
 
 
+            vec3 intersection_point;
+            glm_vec3_scale(pixel, dist, intersection_point);
+            glm_vec3_add(intersection_point, camera->origin, intersection_point); 
 
 
 
+            Solid *solid = scene->solids[closest];
+
+            vec3 normal;
+            solid->get_normal(
+                solid->self,
+                intersection_point,
+                normal // keeping with the cglm convention of putting the results in the last arg
+            );
+
+            vec3 to_source;
 
 
 
+            float intensity = glm_vec3_dot(normal, to_source);
+
+            if (intensity <= 0){
+                set_pixel_color(&window_pixel, 0);
+                continue;
+            }
+            
+
+            /*
+            if(intensity > 1){
+                set_pixel_color(&window_pixel, 255);
+                continue; 
+            };
+*/
 
 
 
+            // R
+            *window_pixel = intensity*solid->RED; // intensity is a fraction, the color val is the standard 0 to 255
+            ++window_pixel;
 
+            // G
+            *window_pixel = intensity*solid->GREEN;
+            ++window_pixel;
 
-                    Solid *solid = scene->solids[closest];
+            // B
+            *window_pixel = intensity*solid->BLUE;
+            ++window_pixel;
 
-                    float intensity = solid->get_intensity(
-                        solid->self,
-                        camera->origin,
-                        pixel,
-                        dist,
-                        scene->light_sources
-                    );
-
-
-
-                    if (intensity > 1){
-
-                        // R
-                        *window_pixel = 255; // intensity is a fraction, the color val is the standard 0 to 255
-                        ++window_pixel;
-
-                        // G
-                        *window_pixel = 255;
-                        ++window_pixel;
-
-                        // B
-                        *window_pixel = 255;
-                        ++window_pixel;
-
-                        // alpha ??  --- not sure what this is
-                        // *window_pixel = 0;
-                        ++window_pixel;
-                        continue;
-                    }; 
-
-
-                    // R
-                    *window_pixel = intensity*solid->RED; // intensity is a fraction, the color val is the standard 0 to 255
-                    ++window_pixel;
-
-                    // G
-                    *window_pixel = intensity*solid->GREEN;
-                    ++window_pixel;
-
-                    // B
-                    *window_pixel = intensity*solid->BLUE;
-                    ++window_pixel;
-
-                    // alpha ??  --- not sure what this is
-                    // *window_pixel = 0;
-                    ++window_pixel;
+            // alpha ??  --- not sure what this is
+            // *window_pixel = 0;
+            ++window_pixel;
 
 
 

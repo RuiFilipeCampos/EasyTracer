@@ -1,7 +1,7 @@
 
 
 
-#include "./object.h"
+#include "./solid.h"
 
 
 typedef struct Sphere{
@@ -10,4 +10,8 @@ typedef struct Sphere{
     float radius;
 } Sphere;
 
-Sphere new_Sphere(double x, double y, double z, double radius, uint8_t R, uint8_t G, uint8_t B);
+Sphere new_Sphere(
+    double x, double y, double z, 
+    double radius, 
+    uint8_t R, uint8_t G, uint8_t B
+);
