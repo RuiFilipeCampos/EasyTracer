@@ -13,7 +13,7 @@ typedef struct Object{
     void *self;
     float (*intersect)(void* self, vec3, vec3, vec3);
     float (*get_intensity)(void* self, vec3, vec3, vec3, float);
-    RGB color;
+    int RED, GREEN, BLUE; 
 } Object;
 
 

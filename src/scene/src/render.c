@@ -3,39 +3,30 @@
 
 
 
-
-
-
-
-
-
 void render(Camera *camera, SDL_Surface *surface, Scene *scene)
 {
-    // let's do a sphere located at z = 5 with radius of 1
+    /*
+    DESCRIPTION
+        Draws scene onto screeen according to current camera parameters.
+    */
 
-                            
-    // Pixel *pixel   = camera->screen.start;
+
+
     SDL_LockSurface(surface);
     uint8_t *window_pixel = (uint8_t *) surface->pixels;
 
+    vec3 direction; 
 
-    vec3 light_source;
-    light_source[0] = 0;
-    light_source[1] =  0.25;
-    light_source[2] =  15;
-
-    vec3 pixel;
-
-
-
-    // CAREFUL WITH THIS
+    // Iterating all pixels !
     for (int ny = 0; ny < camera->screen.Ny; ++ny){
         for (int nx = 0; nx < camera->screen.Nx; ++nx){
                 
-                    // CONSTRUCTING THE PIXEL 
-                    glm_vec3_scale(camera->direction, camera->d, pixel); 
+                    // CONSTRUCTING THE DIRECTION OF THE RAY 
+                    glm_vec3_scale(camera->direction, camera->d, direction); 
                     glm_vec3_add(camera->origin, pixel, pixel); // it is now touching the screen
-                    float up_scalar_displacement = ((float) (ny - camera->halfNy  ) ) * camera->screen.dy;  
+
+                    float up_scalar_displacement = ((float) (ny - camera->halfNy  ) ) * camera->screen.dy;
+                    
                     vec3 displacement; 
                     glm_vec3_scale(camera->up, up_scalar_displacement, displacement);
                     glm_vec3_add(pixel, displacement, pixel);

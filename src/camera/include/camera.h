@@ -28,5 +28,7 @@ typedef struct Camera{
 	Screen screen;    // the array of detectors (Pixel)
 } Camera;
 
+Camera create_simple_camera(double X, double Y, int Nx, int Ny);
+
 
 #endif
