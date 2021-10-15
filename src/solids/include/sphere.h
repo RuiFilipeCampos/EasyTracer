@@ -5,7 +5,7 @@
 
 
 typedef struct Sphere{
-    Object base;
+    Solid base;
     vec3 center;
     float radius;
 } Sphere;

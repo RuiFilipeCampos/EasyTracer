@@ -7,7 +7,7 @@
 
 
 typedef struct Plane{
-    Object base;
+    Solid base;
     vec3 position;
     vec3 direction;
 } Plane;

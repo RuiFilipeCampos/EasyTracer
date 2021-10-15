@@ -1,9 +1,9 @@
 
 
 
-
+#include "../../solids/all.h"
 
 typedef struct Scene{
-    SourceCollection light_sources;
-    SolidCollection solids;
+    Source *light_sources;
+    Solid *solids; 
 } Scene;
