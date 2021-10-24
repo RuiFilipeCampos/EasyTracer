@@ -1,6 +1,6 @@
 # EasyTracer
 
-My second a favorite project.
+My second a favorite project.   
 
 ## Intro
 
