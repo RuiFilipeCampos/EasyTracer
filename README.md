@@ -7,7 +7,7 @@ My second a favorite project.
 A ray tracer I'm building for fun.
 
 Plan:
-
+a
 - build geometry in a Lua script
 - explore the 3d environment (powered by C and the SDF library)
 
