@@ -29,20 +29,25 @@ namespace properties{
     Color BLUE  = {0, 0, 255};
 }
 
+#define SUPER() 
+
+
 namespace primitives{
     class Object {
         private:
             double T[4][4];
+            double invT[4][4];
             properties::Color color;
-
+            bool final_form;
         
-        Object(){
+        super(){
+            this->final_form = false;
             this->T = {
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, 0},
                 {0, 0, 0, 1}
-            }   
+            };
         }
 
         translateX(double displacement){
@@ -56,6 +61,13 @@ namespace primitives{
         translateZ(double displacement){
             this->T[2][3] += displacement;
         }
+
+        lock(){ 
+            this->final_form = true;
+
+            /* calculate invT  */
+        
+        }
     }
 
     class Sphere : Object{
@@ -64,14 +76,14 @@ namespace primitives{
             double radius;
 
         Sphere(double radius){
+            this->super();
             this->color = properties::BLUE;
             this->radius = radius;
         };
 
         bool intersect(types::Ray *ray){
-            for (transform:){
-                transform(ray);
-            }; 
+            types::Ray new_ray;
+            /* apply transform on ray */
 
             /* Intersection logic */
 
@@ -79,29 +91,6 @@ namespace primitives{
     };
 }
 
-namespace transforms{
-
-    class Translation{
-        private:
-            double displacement[3];
-
-        Translation(double *vec3){
-            this->displacement = vec3;
-        };
-
-        void compose(Translation *other){
-            this.displacement[0] += other->displacement[0];
-            this.displacement[1] += other->displacement[1];
-            this.displacement[2] += other->displacement[2];
-        };
-
-        void apply(types::Ray *ray){
-            (*ray).origin[0] -= this->displacement[0];
-            (*ray).origin[1] -= this->displacement[1];
-            (*ray).origin[2] -= this->displacement[2];
-        };
-    }
-}
 
 /*
 namespace operations{
