@@ -70,7 +70,7 @@ namespace primitives{
         }
     }
 
-    class Sphere : Object{
+    class Sphere : public Object{
         private:
             types::vec3 cached_intersection;
             double radius;
