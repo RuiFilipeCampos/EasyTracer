@@ -58,7 +58,7 @@ namespace primitives{
     };
 }
 
-namespace transforms{<
+namespace transforms{
 
     class Translation{
         private:
