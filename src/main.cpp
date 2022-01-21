@@ -29,8 +29,6 @@ namespace properties{
     Color BLUE  = {0, 0, 255};
 }
 
-#define SUPER() 
-
 
 namespace primitives{
     class Object {
