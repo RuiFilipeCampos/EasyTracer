@@ -27,25 +27,46 @@ namespace properties{
     Color RED   = {255, 0, 0};
     Color GREEN = {0, 255, 0};
     Color BLUE  = {0, 0, 255};
-
 }
 
-
-class Object{
-    properties::Color color;
-
-    void intersect(void){}
-
-};
-
-
 namespace primitives{
+    class Object {
+        private:
+            double T[4][4];
+            properties::Color color;
+
+        
+        Object(){
+            this->T = {
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
+            }   
+        }
+
+        translateX(double displacement){
+            this->T[0][3] += displacement;
+        }
+
+        translateY(double displacement){
+            this->T[1][3] += displacement;
+        }
+
+        translateZ(double displacement){
+            this->T[2][3] += displacement;
+        }
+    }
 
     class Sphere : Object{
         private:
-            types::vec3 cached_intersection; 
+            types::vec3 cached_intersection;
+            double radius;
 
-        Sphere(){};
+        Sphere(double radius){
+            this->color = properties::BLUE;
+            this->radius = radius;
+        };
 
         bool intersect(types::Ray *ray){
             for (transform:){
