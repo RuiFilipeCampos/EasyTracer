@@ -2,7 +2,7 @@
 using namespace std;
 
 
-namespace property{
+namespace properties{
     struct Color{
         int R, G, B; 
     }; 
@@ -23,7 +23,7 @@ class Object{
 };
 
 
-namespace primitive{
+namespace primitives{
 
     class Sphere :: Object{
         private:
@@ -35,7 +35,7 @@ namespace primitive{
     };
 }
 
-namespace transform{
+namespace transforms{
 
     // still not sure how it's going to look
     void translate(void){
@@ -44,7 +44,7 @@ namespace transform{
 }
 
 
-namespace operation{
+namespace operations{
     class Union{
 
     }; 
