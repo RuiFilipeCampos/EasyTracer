@@ -58,12 +58,7 @@ namespace primitives{
     };
 }
 
-namespace transforms{
-
-    class Scale{
-        private:
-            double scaling_factor;
-    }
+namespace transforms{<
 
     class Translation{
         private:
@@ -110,7 +105,6 @@ int main()
 {
 
     printf("%d", properties::BLACK.R);
-
 
     Sphere *some_sphere = new Sphere(10);
     
