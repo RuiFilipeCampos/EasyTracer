@@ -3,9 +3,6 @@
 
 
 #include <objects/object.hpp>
-#include <objects/object.hpp>
-#include <objects/sphere/sphere.hpp>
-
 #include <types/geometry.hpp>
 
 class Sphere : public Object{

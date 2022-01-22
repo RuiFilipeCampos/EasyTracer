@@ -1,6 +1,6 @@
 #include <iostream>
-#include "data/lists/singly_linked_list.hpp"
-#include "objects/sphere/sphere.hpp"
+#include <data/lists/singly_linked_list.hpp>
+#include <objects/sphere/sphere.hpp>
 
 using namespace std;
 
