@@ -6,22 +6,55 @@ namespace structures{
     namespace lists{
 
         template <typename T>
-        class Node{
+        struct Node{
             T content;
-            Node *next;
+            Node<T> *next;
         };
 
         template <typename T>
         class SinglyLinkedList{
-            public:
+            private:
                 Node<T> head;
-
-            SinglyLinkedList(T first_element){
-                this->head.content = first_element;
-                this->head.next = NULL;
-            }
             
-            append(){};
+            public:
+
+                // Without this I can't do stack allocation.
+                SinglyLinkedList(){};
+
+                SinglyLinkedList(T first_element){
+                    this->head.content = first_element;
+                    this->head.next = NULL;
+                };
+
+                void print_contents(){
+                    Node<T> *node_ptr = &this->head;
+                    cout << node_ptr->content;
+                    while (node_ptr->next != NULL) {
+                        cout << node_ptr->content;
+                        node_ptr = node_ptr->next;
+                    };
+                };
+
+            T operator[](int index){};
+
+
+            Node<T> *get_last_node(){
+                Node<T> *node_ptr = &this->head;
+
+                while (node_ptr->next != NULL){
+                    node_ptr = node_ptr->next;
+                };
+
+                return node_ptr;
+            };
+            
+            void append(T value){
+                Node<T> *last_node = this->get_last_node();
+
+                last_node->next = new Node<T>;
+                last_node->next->content = value;
+
+            };
         };
     };
 };
@@ -146,6 +179,11 @@ int main()
     some_sphere->translateX(1);
     some_sphere->translateY(-1);
     some_sphere->lock();
+
+    structures::lists::SinglyLinkedList<int> a_list;
+    a_list = structures::lists::SinglyLinkedList<int>(1);
+
+    a_list.print_contents();
 
     return 0;
 }
