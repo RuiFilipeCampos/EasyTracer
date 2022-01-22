@@ -3,5 +3,5 @@
 
 
 all:
-	g++ -o abc src/main.cpp src/data/lists/singly_linked_list.cpp 
+	g++ -Isrc -o abc src/main.cpp src/types/geometry.cpp src/objects/sphere/sphere.cpp 
 
