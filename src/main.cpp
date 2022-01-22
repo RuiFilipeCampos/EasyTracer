@@ -5,13 +5,13 @@ using namespace std;
 namespace structures{
     namespace lists{
 
-        template <T>
+        template <typename T>
         class Node{
             T content;
             Node *next;
-        }
+        };
 
-        template <T>
+        template <typename T>
         class SinglyLinkedList{
             public:
                 Node<T> head;
@@ -22,9 +22,9 @@ namespace structures{
             }
             
             append(){};
-        }
-    }
-}
+        };
+    };
+};
 
 namespace types{
     typedef double vec3[3];
