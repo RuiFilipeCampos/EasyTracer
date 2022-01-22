@@ -6,6 +6,10 @@ My second a favorite project.
 
 ## January 2022
 
+### 22
+
+This is important to understand: https://stackoverflow.com/questions/8752837/undefined-reference-to-template-class-constructor
+
 ### 21
 
 I miss C++ :p
