@@ -1,2 +1,7 @@
+
+
+
+
 all:
-	g++ -Iexternal/src/include -Lexternal/src/lib -o dist/EasyTracer_WIN src/main.c src/tracer.c src/primitives.c src/types.c -lmingw32 -l:libSDL2main.a -l:libSDL2.dll.a 
+	g++ -Isrc -o abc src/main.cpp src/types/geometry.cpp src/objects/sphere/sphere.cpp src/properties/color.cpp
+
