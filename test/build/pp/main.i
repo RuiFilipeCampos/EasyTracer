@@ -2,4 +2,6 @@
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "src/main.cpp"
-int x = 0;
+int xx =1;
+
+int main(){};

@@ -1,1 +1,1 @@
-int x = 0;
+int var_name = 1;
