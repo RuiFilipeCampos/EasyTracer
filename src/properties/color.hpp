@@ -6,9 +6,7 @@ struct Color{
 }; 
 
 
-
-Color BLACK = {0, 0, 0};
-
-Color RED   = {255, 0, 0};
-Color GREEN = {0, 255, 0};
-Color BLUE  = {0, 0, 255};
+extern Color BLACK;
+extern Color RED;  
+extern Color GREEN; 
+extern Color BLUE;
